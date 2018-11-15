@@ -13,7 +13,7 @@ jobs:
   include:
     - stage: format
       dist: trusty
-      script: ./tools/run-clang-format.py -r src test
+      script: ./tools/run-clang-format.py -r src test bench
     - stage: static analysis
       dist: trusty
       script: ./tools/tidy

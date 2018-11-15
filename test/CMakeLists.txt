@@ -9,5 +9,5 @@ set(TEST_NAME tests)
 
 add_executable(${TEST_NAME} test_main.cpp ${SOURCES})
 add_sanitizers(${TEST_NAME})
-target_link_libraries(${TEST_NAME} PRIVATE ${LIB_NAME} catch)
+target_link_libraries(${TEST_NAME} PRIVATE ${LIB_NAME} catch gsl)
 target_compile_definitions(${TEST_NAME} PRIVATE CATCH_CONFIG_CONSOLE_WIDTH=60)
