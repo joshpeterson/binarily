@@ -8,9 +8,13 @@ else()
   add_compile_options(-Wall -Wextra -pedantic -Werror)
 endif()
 
+set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "Suppressing benchmark's tests" FORCE)
+add_subdirectory(thirdparty/benchmark)
+
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/thirdparty/sanitizers-cmake/cmake" ${CMAKE_MODULE_PATH})
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_subdirectory(thirdparty/catch)
 add_subdirectory(src)
 add_subdirectory(test)
+add_subdirectory(bench)
