@@ -1,6 +1,6 @@
 ---
-Checks:          '*,-clang-analyzer-alpha.deadcode.UnreachableCode,-readability-braces-around-statements,-cppcoreguidelines-pro-type-reinterpret-cast,-modernize-pass-by-value,-cert-err58-cpp,-fuchsia-default-arguments'
-WarningsAsErrors: '*,-clang-analyzer-alpha.deadcode.UnreachableCode,-readability-braces-around-statements,-cppcoreguidelines-pro-type-reinterpret-cast,-modernize-pass-by-value,-cert-err58-cpp,-fuchsia-default-arguments'
+Checks:          '*,-clang-analyzer-alpha.deadcode.UnreachableCode,-readability-braces-around-statements,-cppcoreguidelines-pro-type-reinterpret-cast,-modernize-pass-by-value,-cert-err58-cpp,-fuchsia-default-arguments,-hicpp-braces-around-statements,-cppcoreguidelines-owning-memory,-cppcoreguidelines-pro-bounds-array-to-pointer-decay,-hicpp-no-array-decay'
+WarningsAsErrors: '*,-clang-analyzer-alpha.deadcode.UnreachableCode,-readability-braces-around-statements,-cppcoreguidelines-pro-type-reinterpret-cast,-modernize-pass-by-value,-cert-err58-cpp,-fuchsia-default-arguments,-hicpp-braces-around-statements,-cppcoreguidelines-owning-memory,-cppcoreguidelines-pro-bounds-array-to-pointer-decay,-hicpp-no-array-decay'
 HeaderFilterRegex: ''
 AnalyzeTemporaryDtors: false
 User:            josh
