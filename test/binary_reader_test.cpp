@@ -21,10 +21,10 @@ TEST_CASE("Binary Reader")
 
   SECTION("Can read 8 bytes from a file")
   {
-    std::array<uint8_t, 8> expected_buffer = {0x00, 0x61, 0x73, 0x6d,
-                                              0x01, 0x00, 0x00, 0x00};
+    std::array<uint8_t, 8> expected_buffer = {
+        {0x00, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00}};
 
-    std::array<uint8_t, 8> actual_buffer;
+    std::array<uint8_t, 8> actual_buffer{};
     reader.ReadBytes(actual_buffer.data(), actual_buffer.size());
     REQUIRE(actual_buffer == expected_buffer);
   }
