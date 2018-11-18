@@ -13,6 +13,7 @@ add_subdirectory(thirdparty/benchmark)
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/thirdparty/sanitizers-cmake/cmake" ${CMAKE_MODULE_PATH})
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_CXX_STANDARD 11)
 
 add_subdirectory(thirdparty/catch)
 add_subdirectory(src)
