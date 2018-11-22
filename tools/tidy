@@ -8,5 +8,5 @@ else
   FILES="$1"
 fi
 echo Checking $FILES
-clang-tidy $FILES -config='' -- -std=c++11 -Ithirdparty/catch/include -Isrc
+clang-tidy $FILES -config='' -- -std=c++11 -Ithirdparty/catch/include -Ithirdparty/gsl -Ithirdparty/benchmark/include -Isrc
 

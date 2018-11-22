@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <cstdio>
+#include <gsl>
 
 class BinaryReader
 {
@@ -10,7 +11,8 @@ public:
   ~BinaryReader();
 
   uint8_t ReadByte() const;
-  void ReadBytes(uint8_t* buffer, size_t size);
+  void ReadBytes(gsl::span<uint8_t> buffer);
+  void Reset();
 
 private:
   FILE* file_;
