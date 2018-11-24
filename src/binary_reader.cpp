@@ -3,7 +3,7 @@
 
 BinaryReader::BinaryReader(const char* file_path)
 {
-  file_ = fopen(file_path, "rbe");
+  file_ = fopen(file_path, "rb");
   assert(file_ != nullptr);
 }
 
@@ -12,7 +12,7 @@ BinaryReader::~BinaryReader() { fclose(file_); }
 uint8_t BinaryReader::ReadByte() const
 {
   uint8_t buffer;
-  int bytes_read = fread(&buffer, sizeof(buffer), 1, file_);
+  size_t bytes_read = fread(&buffer, sizeof(buffer), 1, file_);
   do
   {
     (void)bytes_read;
