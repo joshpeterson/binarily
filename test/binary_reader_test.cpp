@@ -11,13 +11,26 @@ TEST_CASE("Binary Reader")
 
   SECTION("Can read first byte from a file")
   {
-    REQUIRE(reader.ReadByte() == 0);
+    uint8_t value;
+    reader.ReadByte(value);
+    REQUIRE(value == 0);
   }
 
   SECTION("Can read second byte from a file")
   {
-    reader.ReadByte();
-    REQUIRE(reader.ReadByte() == 0x61);
+    uint8_t value;
+    reader.ReadByte(value);
+    reader.ReadByte(value);
+    REQUIRE(value == 0x61);
+  }
+
+  SECTION("Can detect end of file")
+  {
+    int bytes = 0;
+    uint8_t value;
+    while (reader.ReadByte(value))
+      bytes++;
+    REQUIRE(bytes == 115);
   }
 
   SECTION("Can read 8 bytes from a file into a std::array")
@@ -48,6 +61,36 @@ TEST_CASE("Binary Reader")
     reader.ReadBytes(actual);
     for (int i = 0; i < 8; ++i)
       REQUIRE(std::memcmp((uint8_t*)actual, (uint8_t*)expected, 8) == 0);
+  }
+
+  SECTION("ReadBytes returns the number of bytes actually read")
+  {
+    const int expectedSize = 8;
+    std::array<uint8_t, expectedSize> actual{};
+    REQUIRE(reader.ReadBytes(actual) == expectedSize);
+  }
+
+  SECTION("Can read entire file")
+  {
+    const int fileSize = 115;
+    std::array<uint8_t, fileSize> actual{};
+    REQUIRE(reader.ReadBytes(actual) == fileSize);
+  }
+
+  SECTION("Don't read beyond end of file")
+  {
+    const int fileSize = 115;
+    std::array<uint8_t, 116> actual{};
+    REQUIRE(reader.ReadBytes(actual) == fileSize);
+  }
+
+  SECTION("Bytes in buffer beyond file are not changed")
+  {
+    std::array<uint8_t, 116> actual{};
+    const uint8_t expectedValue = 0xFE;
+    actual[115] = 0xFE;
+    reader.ReadBytes(actual);
+    REQUIRE(actual[115] == expectedValue);
   }
 
   SECTION("Can reset to the start of a file")
