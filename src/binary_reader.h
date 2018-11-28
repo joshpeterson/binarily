@@ -11,6 +11,8 @@ public:
   BinaryReader(const char* file_path);
   ~BinaryReader();
 
+  bool Exists() const;
+
   bool ReadByte(uint8_t& value) const;
   int ReadBytes(gsl::span<uint8_t> buffer);
   void Reset();

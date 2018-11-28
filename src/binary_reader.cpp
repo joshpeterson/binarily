@@ -5,10 +5,15 @@ BinaryReader::BinaryReader(const char* file_path)
     : buffer_(), current_(bufferSize_), bufferUsedSize_(0)
 {
   file_ = fopen(file_path, "rb");
-  assert(file_ != nullptr);
 }
 
-BinaryReader::~BinaryReader() { fclose(file_); }
+BinaryReader::~BinaryReader()
+{
+  if (file_ != nullptr)
+    fclose(file_);
+}
+
+bool BinaryReader::Exists() const { return file_ != nullptr; }
 
 bool BinaryReader::ReadByte(uint8_t& value) const
 {
