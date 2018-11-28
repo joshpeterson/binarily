@@ -107,4 +107,15 @@ TEST_CASE("Binary Reader")
     reader.ReadBytes(actual);
     REQUIRE(actual == expected);
   }
+
+  SECTION("Exists returns true for a file that exists")
+  {
+    REQUIRE(reader.Exists());
+  }
+}
+
+TEST_CASE("Can handle a missing file")
+{
+  BinaryReader reader("Does not exist");
+  REQUIRE(!reader.Exists());
 }
