@@ -1,0 +1,23 @@
+{
+  "frodo": {
+    "ReadEightBytes": {
+      "expected": 1126,
+      "variance": 5
+    },
+    "ReadWholeFile": {
+      "expected": 3036,
+      "variance": 5
+    }
+  },
+
+  "gandalf": {
+    "ReadEightBytes": {
+      "expected": 14900,
+      "variance": 5
+    },
+    "ReadWholeFile": {
+      "expected": 68900,
+      "variance": 5
+    }
+  }
+}
