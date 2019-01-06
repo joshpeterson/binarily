@@ -10,7 +10,7 @@ cd win32
 
 cmake ..\.. -G "Visual Studio 15 2017" || exit /b 1
 
-msbuild /nologo /verbosity:quiet /p:Configuration=Debug wasmly.sln || exit /b 1
+msbuild /nologo /verbosity:quiet /p:Configuration=Debug binarily.sln || exit /b 1
 
 test\Debug\tests.exe || exit /b 1
 
