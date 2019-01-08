@@ -1,6 +1,16 @@
 #!/bin/sh
 set -e
+uname=`uname`
 echo Building in debug
-./tools/build-debug
+if [ "$uname" = 'Linux' ]; then
+  time -f "Total debug build time: %e seconds" ./tools/build-debug
+else
+  ./tools/build-debug
+fi
+echo
 echo Building in release
-./tools/build-release
+if [ "$uname" = 'Linux' ]; then
+  time -f "Total release build time: %e seconds" ./tools/build-release
+else
+  ./tools/build-release
+fi
