@@ -1,2 +1,7 @@
 #!/bin/sh
-ag -l --ignore-dir artifacts | entr ./tools/build-debug
+uname=`uname`
+if [ "$uname" = 'Linux' ]; then
+  ag -l --ignore-dir artifacts | entr time -f "Total time: %e seconds" ./tools/build-debug
+else
+  ag -l --ignore-dir artifacts | entr ./tools/build-debug
+fi
