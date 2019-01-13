@@ -14,7 +14,7 @@ Checks: >
   -google-runtime-references,
   -android-cloexec-fopen,
 WarningsAsErrors: '*'
-HeaderFilterRegex: ''
+HeaderFilterRegex: 'src/.*'
 AnalyzeTemporaryDtors: false
 User:            josh
 CheckOptions:
