@@ -8,7 +8,7 @@
 class BinaryReader
 {
 public:
-  BinaryReader(const char* file_path);
+  explicit BinaryReader(const char* file_path);
   ~BinaryReader();
 
   bool Exists() const;
