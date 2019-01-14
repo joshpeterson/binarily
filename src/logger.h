@@ -5,7 +5,7 @@
 class Logger
 {
 public:
-  typedef void (*LogCallback)(const std::string&);
+  using LogCallback = void (*)(const std::string&);
   explicit Logger(LogCallback callback);
 
   static bool Enabled;
