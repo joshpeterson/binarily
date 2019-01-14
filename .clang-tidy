@@ -13,6 +13,7 @@ Checks: >
   -hicpp-no-array-decay,
   -google-runtime-references,
   -android-cloexec-fopen,
+  -llvm-header-guard,
 WarningsAsErrors: '*'
 HeaderFilterRegex: 'src/.*'
 AnalyzeTemporaryDtors: false
