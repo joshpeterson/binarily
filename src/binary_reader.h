@@ -8,8 +8,14 @@
 class BinaryReader
 {
 public:
-  BinaryReader(const char* file_path);
+  explicit BinaryReader(const char* file_path);
   ~BinaryReader();
+
+  // Don't allow copy, assignment, or move.
+  BinaryReader(const BinaryReader&) = delete;            // copy constructor
+  BinaryReader& operator=(const BinaryReader&) = delete; // copy assignment
+  BinaryReader(BinaryReader&&) = delete;                 // move constructor
+  BinaryReader& operator=(BinaryReader&&) = delete;      // move assignment
 
   bool Exists() const;
 

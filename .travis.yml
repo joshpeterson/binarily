@@ -16,6 +16,7 @@ jobs:
       script: ./tools/run-clang-format.py -r src test bench
     - stage: static analysis
       dist: trusty
+      env: TIDY=clang-tidy-6.0
       script: ./tools/tidy
     - stage: build
       os: osx
