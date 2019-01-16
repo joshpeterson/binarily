@@ -1,21 +1,13 @@
 #include "logger.h"
 #include <fmt/format.h>
 
-bool Logger::Enabled = false;
-
 static void StandardOutputLogCallback(const std::string& message)
 {
-  fmt::print(message);
+  fmt::print("{}\n", message);
 }
 
-Logger::Logger(LogCallback callback) : callback_(callback)
-{
-  if (callback_ == nullptr)
-    callback_ = StandardOutputLogCallback;
-}
+Logger::LogCallback Logger::Callback = StandardOutputLogCallback;
 
-void Logger::Write(const std::string& message)
-{
-  if (Enabled)
-    callback_(message);
-}
+void Logger::SetCallback(LogCallback callback) { Callback = callback; }
+
+void Logger::Write(const std::string& message) { Callback(message); }

@@ -31,3 +31,8 @@ else()
   target_compile_options(${LIB_NAME} PRIVATE "-pedantic")
 endif()
 
+option(ENABLE_LOGGING "Enable logging" OFF)
+if(ENABLE_LOGGING)
+  add_definitions(-DENABLE_LOGGING)
+endif(ENABLE_LOGGING)
+
