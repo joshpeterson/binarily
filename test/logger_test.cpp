@@ -21,4 +21,12 @@ TEST_CASE("Logger")
     Logger::Write(expectedMessage);
     REQUIRE(actualMessage == expectedMessage);
   }
+
+  SECTION("Can log a formatted message")
+  {
+    const char* expectedMessage = "the clocks were striking 13";
+    const int hour = 13;
+    Logger::Write("the clocks were striking {}", hour);
+    REQUIRE(actualMessage == expectedMessage);
+  }
 }

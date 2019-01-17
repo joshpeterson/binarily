@@ -1,10 +1,13 @@
 #include "binary_reader.h"
+#include "logger.h"
 #include <cassert>
 
 BinaryReader::BinaryReader(const char* file_path)
     : buffer_(), current_(bufferSize_), bufferUsedSize_(0)
 {
+  LOG("Attempting to open file '{}'", file_path);
   file_ = fopen(file_path, "rb");
+  LOG("File open {}: {}", file_ ? "succeeded" : "failed", (void*)file_);
 }
 
 BinaryReader::~BinaryReader()
@@ -37,6 +40,8 @@ int BinaryReader::ReadBytes(gsl::span<uint8_t> buffer)
       break;
     bytes++;
   }
+
+  LOG("Read {} bytes from {}", bytes, (void*)file_);
 
   return bytes;
 }
