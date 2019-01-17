@@ -1,11 +1,16 @@
 #pragma once
 
+#include <fmt/format.h>
 #include <string>
 
 #if defined(ENABLE_LOGGING)
-#define LOG_WRITE(message) Logger::Write(message)
+#define LOG(message, ...)                                                      \
+  Logger::Write(                                                               \
+      fmt::format("{}:{}({}) {}", __FILE__, __LINE__, __func__, message)       \
+          .c_str(),                                                            \
+      __VA_ARGS__)
 #else
-#define LOG_WRITE(message)
+#define LOG(message, ...)
 #endif
 
 class Logger
@@ -14,8 +19,14 @@ public:
   using LogCallback = void (*)(const std::string&);
   static void SetCallback(LogCallback callback);
 
-  static void Write(const std::string& message);
+  template <typename... Args>
+  static void Write(const char* format, const Args&... args)
+  {
+    VWrite(format, fmt::make_format_args(args...));
+  }
 
 private:
   static LogCallback Callback;
+
+  static void VWrite(const char* format, fmt::format_args args);
 };

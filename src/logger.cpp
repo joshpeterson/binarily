@@ -10,4 +10,7 @@ Logger::LogCallback Logger::Callback = StandardOutputLogCallback;
 
 void Logger::SetCallback(LogCallback callback) { Callback = callback; }
 
-void Logger::Write(const std::string& message) { Callback(message); }
+void Logger::VWrite(const char* format, fmt::format_args args)
+{
+  Callback(fmt::vformat(format, args));
+}
