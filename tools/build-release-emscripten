@@ -1,0 +1,23 @@
+#!/bin/sh
+set -e
+if [ ! -d artifacts ]; then
+  mkdir artifacts
+fi
+cd artifacts
+if [ ! -d ReleaseEmscripten ]; then
+  mkdir ReleaseEmscripten
+fi
+cd ReleaseEmscripten
+if [ -n "$COMPILER" ]; then
+  echo "COMPILER is defined, use it: CXX=$COMPILER"
+  export CXX=$COMPILER
+fi
+if [ -z "$CXX" ]; then
+  export CXX=em++
+fi
+# Use this line to build with logging enabled
+#cmake -DCMAKE_BUILD_TYPE=Release -DEMSCRIPTEN=ON -DENABLE_LOGGING=ON ../..
+cmake -DCMAKE_BUILD_TYPE=Release -DEMSCRIPTEN=ON ../..
+make
+node test/tests.js
+cd ../..
