@@ -6,7 +6,12 @@ set(SOURCES
 find_package(Sanitizers)
 
 set(LIB_NAME ${PROJECT_NAME}_lib)
-set(TEST_NAME tests)
+
+if (EMSCRIPTEN)
+  set(TEST_NAME tests.js)
+else(EMSCRIPTEN)
+  set(TEST_NAME tests)
+endif(EMSCRIPTEN)
 
 add_executable(${TEST_NAME} test_main.cpp ${SOURCES})
 add_sanitizers(${TEST_NAME})
@@ -21,3 +26,7 @@ else()
   target_compile_options(${TEST_NAME} PRIVATE "-Werror")
   target_compile_options(${TEST_NAME} PRIVATE "-pedantic")
 endif()
+
+if (EMSCRIPTEN)
+  set_target_properties(${TEST_NAME} PROPERTIES LINK_FLAGS "--embed-file ../../../test/data -s DISABLE_EXCEPTION_CATCHING=2 -s DEMANGLE_SUPPORT=1")
+endif(EMSCRIPTEN)
