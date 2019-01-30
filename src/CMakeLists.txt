@@ -3,6 +3,8 @@ set(SOURCES
   "binary_reader.cpp"
   "logger.h"
   "logger.cpp"
+  "type_detector.h"
+  "type_detector.cpp"
 )
 
 find_package(Sanitizers)
