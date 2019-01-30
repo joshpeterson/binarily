@@ -18,6 +18,7 @@ class Logger
 public:
   using LogCallback = void (*)(const std::string&);
   static void SetCallback(LogCallback callback);
+  static void ResetCallback();
 
   template <typename... Args>
   static void Write(const char* format, const Args&... args)
