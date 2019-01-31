@@ -4,13 +4,18 @@
 #include <string>
 
 #if defined(ENABLE_LOGGING)
-#define LOG(message, ...)                                                      \
+#define LOG(message)                                                           \
+  Logger::Write(                                                               \
+      fmt::format("{}:{}({}) {}", __FILE__, __LINE__, __func__, message)       \
+          .c_str())
+#define LOGF(message, ...)                                                     \
   Logger::Write(                                                               \
       fmt::format("{}:{}({}) {}", __FILE__, __LINE__, __func__, message)       \
           .c_str(),                                                            \
       __VA_ARGS__)
 #else
-#define LOG(message, ...)
+#define LOG(message)
+#define LOGF(message, ...)
 #endif
 
 class Logger
@@ -18,6 +23,7 @@ class Logger
 public:
   using LogCallback = void (*)(const std::string&);
   static void SetCallback(LogCallback callback);
+  static void ResetCallback();
 
   template <typename... Args>
   static void Write(const char* format, const Args&... args)

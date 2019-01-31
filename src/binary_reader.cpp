@@ -5,9 +5,9 @@
 BinaryReader::BinaryReader(const char* file_path)
     : buffer_(), current_(bufferSize_), bufferUsedSize_(0)
 {
-  LOG("Attempting to open file '{}'", file_path);
+  LOGF("Attempting to open file '{}'", file_path);
   file_ = fopen(file_path, "rb");
-  LOG("File open {}: {}", file_ ? "succeeded" : "failed", (void*)file_);
+  LOGF("File open {}: {}", file_ ? "succeeded" : "failed", (void*)file_);
 }
 
 BinaryReader::~BinaryReader()
@@ -31,7 +31,7 @@ bool BinaryReader::ReadByte(uint8_t& value) const
   return true;
 }
 
-int BinaryReader::ReadBytes(gsl::span<uint8_t> buffer)
+int BinaryReader::ReadBytes(gsl::span<uint8_t> buffer) const
 {
   int bytes = 0;
   for (auto& value : buffer)
@@ -41,7 +41,7 @@ int BinaryReader::ReadBytes(gsl::span<uint8_t> buffer)
     bytes++;
   }
 
-  LOG("Read {} bytes from {}", bytes, (void*)file_);
+  LOGF("Read {} bytes from {}", bytes, (void*)file_);
 
   return bytes;
 }
