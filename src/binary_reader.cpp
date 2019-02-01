@@ -2,6 +2,9 @@
 #include "logger.h"
 #include <cassert>
 
+namespace binarily
+{
+
 BinaryReader::BinaryReader(const char* file_path)
     : buffer_(), current_(bufferSize_), bufferUsedSize_(0)
 {
@@ -56,3 +59,5 @@ void BinaryReader::Reset()
   } while (false);
   assert(error == 0);
 }
+
+} // namespace binarily

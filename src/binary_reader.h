@@ -5,6 +5,9 @@
 #include <cstdio>
 #include <gsl>
 
+namespace binarily
+{
+
 class BinaryReader
 {
 public:
@@ -30,3 +33,5 @@ private:
   mutable size_t current_;
   mutable size_t bufferUsedSize_;
 };
+
+} // namespace binarily

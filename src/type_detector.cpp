@@ -4,6 +4,9 @@
 #include <array>
 #include <cassert>
 
+namespace binarily
+{
+
 TypeDetector::TypeDetector(const BinaryReader& binaryReader)
     : type_(UnknownBinary)
 {
@@ -54,3 +57,5 @@ BinaryType TypeDetector::CheckForELF(const BinaryReader& binaryReader)
 
   return UnknownBinary;
 }
+
+} // namespace binarily

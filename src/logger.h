@@ -3,6 +3,9 @@
 #include <fmt/format.h>
 #include <string>
 
+namespace binarily
+{
+
 #if defined(ENABLE_LOGGING)
 #define LOG(message)                                                           \
   Logger::Write(                                                               \
@@ -36,3 +39,5 @@ private:
 
   static void VWrite(const char* format, fmt::format_args args);
 };
+
+} // namespace binarily

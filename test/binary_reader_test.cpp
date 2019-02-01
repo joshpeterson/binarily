@@ -5,6 +5,8 @@
 
 #include "binary_reader.h"
 
+using namespace binarily;
+
 TEST_CASE("Binary Reader")
 {
   BinaryReader reader("../../test/data/simple.wasm");

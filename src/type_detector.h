@@ -1,5 +1,8 @@
 #pragma once
 
+namespace binarily
+{
+
 class BinaryReader;
 
 enum BinaryType
@@ -21,3 +24,5 @@ private:
 
   BinaryType CheckForELF(const BinaryReader& binaryReader);
 };
+
+} // namespace binarily

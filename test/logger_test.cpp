@@ -3,6 +3,8 @@
 
 #include "logger.h"
 
+using namespace binarily;
+
 std::string actualMessage;
 
 static void TestLogCallback(const std::string& message)

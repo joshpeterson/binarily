@@ -3,6 +3,8 @@
 #include "binary_reader.h"
 #include "type_detector.h"
 
+using namespace binarily;
+
 TEST_CASE("Type Detector")
 {
   SECTION("An unspecified file is an unknown type")
