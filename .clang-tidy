@@ -15,6 +15,7 @@ Checks: >
   -android-cloexec-fopen,
   -llvm-header-guard,
   -fuchsia-statically-constructed-objects,
+  -google-build-using-namespace,
 WarningsAsErrors: '*'
 HeaderFilterRegex: 'src/.*'
 AnalyzeTemporaryDtors: false

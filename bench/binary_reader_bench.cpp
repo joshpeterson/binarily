@@ -2,6 +2,8 @@
 #include <array>
 #include <benchmark/benchmark.h>
 
+using namespace binarily;
+
 static void ReadEightBytes(benchmark::State& state)
 {
   BinaryReader reader("../../../test/data/simple.wasm");
