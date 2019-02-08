@@ -2,24 +2,27 @@
 language: cpp
 
 stages:
-  - format
-  - static analysis
+  - prebuild
   - build
   - sanitizers
 
 jobs:
   include:
-    - stage: format
+    - stage: prebuild
+      name: "Verify code formating"
       dist: trusty
       script: ./tools/run-clang-format.py -r src test bench
-    - stage: static analysis
+    - stage: prebuild
+      name: "Static analysis"
       dist: trusty
       env: TIDY=clang-tidy-7
       script: ./tools/tidy
     - stage: build
+      name: "MacOS"
       os: osx
       script: ./build
     - stage: build
+      name: "Clang 7"
       os: linux
       sudo: required
       dist: trusty
@@ -32,6 +35,7 @@ jobs:
       env: COMPILER=clang++-7
       script: ./build
     - stage: build
+      name: "GCC 8"
       os: linux
       sudo: required
       dist: trusty
@@ -46,6 +50,7 @@ jobs:
       env: COMPILER=g++-8
       script: ./build
     - stage: build
+      name: "Windows Visual Studio 2017"
       os: windows
       env:
         - MSBUILD_PATH="c:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\MSBuild\15.0\Bin"
@@ -53,6 +58,7 @@ jobs:
         - export PATH=$MSBUILD_PATH:$PATH
         - ./build.bat
     - stage: build
+      name: "Emscripten"
       language: nodejs
       node_js:
         - node
