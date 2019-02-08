@@ -5,9 +5,7 @@ stages:
   - format
   - static analysis
   - build
-  - address sanitizer
-  - thread sanitizer
-  - undefined behavior sanitizer
+  - sanitizers
 
 jobs:
   include:
@@ -65,7 +63,8 @@ jobs:
         - docker run -dit --name emscripten -v $(pwd):/src trzeci/emscripten bash
       script:
         - docker exec -it emscripten ./tools/build-emscripten
-    - stage: address sanitizer
+    - stage: sanitizers
+      name: "Address sanitizer"
       os: linux
       sudo: required
       dist: trusty
@@ -77,7 +76,8 @@ jobs:
             - ninja-build
       env: COMPILER=clang++-7
       script: ./tools/build-asan
-    - stage: thread sanitizer
+    - stage: sanitizers
+      name: "Thread sanitizer"
       os: linux
       sudo: required
       dist: trusty
@@ -89,7 +89,8 @@ jobs:
             - ninja-build
       env: COMPILER=clang++-7
       script: ./tools/build-tsan
-    - stage: undefined behavior sanitizer
+    - stage: sanitizers
+      name: "Undefined behavior sanitizer"
       os: linux
       sudo: required
       dist: trusty
