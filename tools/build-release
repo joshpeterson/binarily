@@ -22,3 +22,7 @@ cmake -DCMAKE_BUILD_TYPE=Release ../.. -GNinja
 ninja
 ./test/tests
 cd ../..
+
+if [ -n "$SIZE_NAME" ]; then
+  ./tools/record_size.py "$SIZE_NAME" artifacts/Release/src/libbinarily.a
+fi
