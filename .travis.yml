@@ -11,15 +11,34 @@ jobs:
     - stage: prebuild
       name: "Verify code formating"
       dist: trusty
+      before_install:
+        - wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
+        - sudo apt-add-repository "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-7 main"
+        - sudo apt-add-repository "deb http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu trusty main"
+        - sudo apt-get update -qq
+        - sudo apt-get install -y --allow-unauthenticated clang-format-7
       script: ./tools/run-clang-format.py -r src test bench
     - stage: prebuild
       name: "Static analysis"
       dist: trusty
       env: TIDY=clang-tidy-7
+      before_install:
+        - wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
+        - sudo apt-add-repository "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-7 main"
+        - sudo apt-add-repository "deb http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu trusty main"
+        - sudo apt-get update -qq
+        - sudo apt-get install -y --allow-unauthenticated clang-tidy-7
       script: ./tools/tidy
     - stage: build
       name: "MacOS"
       os: osx
+      env: SIZE_NAME="macOS Clang"
+      before_install:
+        - brew update
+        - brew install ninja
+        - openssl aes-256-cbc -K $encrypted_9144c756554a_key -iv $encrypted_9144c756554a_iv -in Binarily\ Size\ Data\ Update-fbe2263a6cf6.json.enc -out Binarily\ Size\ Data\ Update-fbe2263a6cf6.json -d
+        - pip install --upgrade pip --user
+        - pip install gspread oauth2client gitpython --ignore-installed six --user
       script: ./build
     - stage: build
       name: "Clang 7"
@@ -32,14 +51,24 @@ jobs:
             - ubuntu-toolchain-r-test
           packages:
             - ninja-build
-      env: COMPILER=clang++-7
+      env:
+        - COMPILER=clang++-7
+        - SIZE_NAME="Linux Clang"
+      before_install:
+        - openssl aes-256-cbc -K $encrypted_9144c756554a_key -iv $encrypted_9144c756554a_iv -in Binarily\ Size\ Data\ Update-fbe2263a6cf6.json.enc -out Binarily\ Size\ Data\ Update-fbe2263a6cf6.json -d
+        - pip install --upgrade pip --user
+        - pip install gspread oauth2client gitpython --ignore-installed six --user
+        - wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
+        - sudo apt-add-repository "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-7 main"
+        - sudo apt-add-repository "deb http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu trusty main"
+        - sudo apt-get update -qq
+        - sudo apt-get install -y --allow-unauthenticated libstdc++6 clang++-7
       script: ./build
     - stage: build
       name: "GCC 8"
       os: linux
       sudo: required
       dist: trusty
-      before_install: false
       addons:
         apt:
           sources:
@@ -47,11 +76,18 @@ jobs:
           packages:
             - g++-8
             - ninja-build
-      env: COMPILER=g++-8
+      env:
+        - COMPILER=g++-8
+        - SIZE_NAME="Linux GCC"
+      before_install:
+        - openssl aes-256-cbc -K $encrypted_9144c756554a_key -iv $encrypted_9144c756554a_iv -in Binarily\ Size\ Data\ Update-fbe2263a6cf6.json.enc -out Binarily\ Size\ Data\ Update-fbe2263a6cf6.json -d
+        - pip install --upgrade pip --user
+        - pip install gspread oauth2client gitpython --ignore-installed six --user
       script: ./build
     - stage: build
       name: "Windows Visual Studio 2017"
       os: windows
+      filter_secrets: false
       env:
         - MSBUILD_PATH="c:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\MSBuild\15.0\Bin"
       script:
@@ -67,8 +103,11 @@ jobs:
         - docker
       before_install:
         - docker run -dit --name emscripten -v $(pwd):/src trzeci/emscripten bash
+        - docker exec -it emscripten openssl aes-256-cbc -K $encrypted_9144c756554a_key -iv $encrypted_9144c756554a_iv -in Binarily\ Size\ Data\ Update-fbe2263a6cf6.json.enc -out Binarily\ Size\ Data\ Update-fbe2263a6cf6.json -d
+        - docker exec -it emscripten pip install setuptools
+        - docker exec -it emscripten pip install gspread oauth2client gitpython --ignore-installed six --user
       script:
-        - docker exec -it emscripten ./tools/build-emscripten
+        - docker exec -it emscripten bash -c "SIZE_NAME=Emscripten ./tools/build-emscripten"
     - stage: sanitizers
       name: "Address sanitizer"
       os: linux
@@ -81,6 +120,12 @@ jobs:
           packages:
             - ninja-build
       env: COMPILER=clang++-7
+      before_install:
+        - wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
+        - sudo apt-add-repository "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-7 main"
+        - sudo apt-add-repository "deb http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu trusty main"
+        - sudo apt-get update -qq
+        - sudo apt-get install -y --allow-unauthenticated libstdc++6 clang++-7
       script: ./tools/build-asan
     - stage: sanitizers
       name: "Thread sanitizer"
@@ -94,6 +139,12 @@ jobs:
           packages:
             - ninja-build
       env: COMPILER=clang++-7
+      before_install:
+        - wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
+        - sudo apt-add-repository "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-7 main"
+        - sudo apt-add-repository "deb http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu trusty main"
+        - sudo apt-get update -qq
+        - sudo apt-get install -y --allow-unauthenticated libstdc++6 clang++-7
       script: ./tools/build-tsan
     - stage: sanitizers
       name: "Undefined behavior sanitizer"
@@ -107,13 +158,10 @@ jobs:
           packages:
             - ninja-build
       env: COMPILER=clang++-7
+      before_install:
+        - wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
+        - sudo apt-add-repository "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-7 main"
+        - sudo apt-add-repository "deb http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu trusty main"
+        - sudo apt-get update -qq
+        - sudo apt-get install -y --allow-unauthenticated libstdc++6 clang++-7
       script: ./tools/build-ubsan
-
-before_install:
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-add-repository "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-7 main"; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-add-repository "deb http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu trusty main"; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get update -qq; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install -y --allow-unauthenticated libllvm7 libstdc++6 clang-7 clang++-7 clang-format-7 clang-tidy-7; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install ninja; fi
