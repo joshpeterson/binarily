@@ -9,10 +9,10 @@ from oauth2client.service_account import ServiceAccountCredentials
 
 def isMasterBranch():
     repo = Repo(os.getcwd())
-    try:
-        print "Branch name:"
-        print repo.active_branch.name
-        return repo.active_branch.name == 'master'
+#    try:
+    print "Branch name:"
+    print repo.active_branch.name
+    return repo.active_branch.name == 'master'
 #    except:
 #        print "Branch name check failed"
 #        return False # Probably a detached head state
