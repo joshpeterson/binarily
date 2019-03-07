@@ -9,13 +9,16 @@ from oauth2client.service_account import ServiceAccountCredentials
 
 def isMasterBranch():
     repo = Repo(os.getcwd())
-#    try:
-    print "Branch name:"
-    print repo.active_branch.name
-    return repo.active_branch.name == 'master'
-#    except:
-#        print "Branch name check failed"
-#        return False # Probably a detached head state
+    try:
+        currentCommit = repo.head.commit
+        if repo.heads.master.commit.hexsha == currentCommit.hexsha:
+            return True
+        for commit in repo.iter_commits(rev='master'):
+            if commit.hexsha == currentCommit.hexsha:
+                return True
+        return False
+    except:
+        return False
 
 def getHeadHash():
     repo = Repo(os.getcwd())
