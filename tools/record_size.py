@@ -34,7 +34,7 @@ def getDateAndTime():
     return datetime.now().strftime("%Y-%m-%d %H:%M")
 
 def getCommitRow(worksheet, hash):
-    commits = worksheet.col_values(2)
+    commits = worksheet.col_values(6)
     try:
         return commits.index(hash) + 1
     except ValueError:
@@ -79,8 +79,8 @@ row = getCommitRow(worksheet, hash)
 if row == -1:
     row = getFirstEmptyRow(worksheet)
     worksheet.update_cell(row, 1, date)
-    worksheet.update_cell(row, 2, hash)
-    worksheet.update_cell(row, 3, link)
+    worksheet.update_cell(row, 6, hash)
+    worksheet.update_cell(row, 7, link)
 
 column = getSizeColumn(worksheet, name)
 worksheet.update_cell(row, column, size)
