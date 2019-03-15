@@ -1,6 +1,13 @@
 set(SOURCES
   "binary_reader.h"
   "binary_reader.cpp"
+  "binary_type.h"
+  "elf_reader.h"
+  "elf_reader.cpp"
+  "elf32_reader.h"
+  "elf32_reader.cpp"
+  "elf64_reader.h"
+  "elf64_reader.cpp"
   "logger.h"
   "logger.cpp"
   "type_detector.h"

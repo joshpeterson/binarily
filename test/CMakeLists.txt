@@ -1,5 +1,8 @@
 set(SOURCES
   "binary_reader_test.cpp"
+  "elf_reader_test.cpp"
+  "elf32_reader_test.cpp"
+  "elf64_reader_test.cpp"
   "logger_test.cpp"
   "type_detector_test.cpp"
 )
