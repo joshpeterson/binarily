@@ -1,5 +1,7 @@
 #pragma once
 
+#include "elf32.h"
+
 namespace binarily
 {
 
