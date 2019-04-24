@@ -1,6 +1,7 @@
 set(SOURCES
   "binary_reader_test.cpp"
   "elf_reader_test.cpp"
+  "elf32_file_header_test.cpp"
   "elf32_reader_test.cpp"
   "elf64_reader_test.cpp"
   "logger_test.cpp"
@@ -29,6 +30,7 @@ else()
   target_compile_options(${TEST_NAME} PRIVATE "-Wextra")
   target_compile_options(${TEST_NAME} PRIVATE "-Werror")
   target_compile_options(${TEST_NAME} PRIVATE "-pedantic")
+  target_compile_options(${TEST_NAME} PRIVATE "-fno-rtti")
 endif()
 
 if (EMSCRIPTEN)
