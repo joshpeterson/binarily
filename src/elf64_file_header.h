@@ -3,7 +3,7 @@
 #include <array>
 #include <cstdint>
 
-#include "elf32.h"
+#include "elf64.h"
 #include "file_header.h"
 
 namespace binarily
@@ -11,10 +11,10 @@ namespace binarily
 
 class BinaryReader;
 
-class Elf32FileHeader : public FileHeader
+class Elf64FileHeader : public FileHeader
 {
 public:
-  explicit Elf32FileHeader(const BinaryReader& reader);
+  explicit Elf64FileHeader(const BinaryReader& reader);
 
   Bitness GetBitness() const override;
   Endianness GetEndianness() const override;

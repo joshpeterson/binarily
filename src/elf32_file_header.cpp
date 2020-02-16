@@ -9,22 +9,14 @@ namespace binarily
 
 Elf32FileHeader::Elf32FileHeader(const BinaryReader& reader) : header_()
 {
-  std::array<uint8_t, sizeof(header_)> buffer{};
-  int bytesRead = reader.ReadBytes(buffer);
-  LOGF("Read {} bytes from header_ file of {} bytes expected", bytesRead,
-       sizeof(header_));
-  std::memcpy(&header_, buffer.data(), bytesRead);
+  header_ = ElfCommon::ReadFileHeader(reader);
 }
 
 Bitness Elf32FileHeader::GetBitness() const { return ThirtyTwoBit; }
 
 Endianness Elf32FileHeader::GetEndianness() const
 {
-  if (header_.e_ident[EiData] == 1)
-    return LittleEndian;
-  if (header_.e_ident[EiData] == 2)
-    return BigEndian;
-  return UnknownEndian;
+  return ElfCommon::GetEndianness(header_);
 }
 
 } // namespace binarily
