@@ -17,12 +17,12 @@ BinaryType TypeDetector::Type() const { return type_; }
 
 BinaryType TypeDetector::TypeFor(BinaryReader& binaryReader)
 {
-  if (elf32Reader_.Is(binaryReader))
+  if (Elf32Reader::Is(binaryReader))
     return ELF32;
 
   binaryReader.Reset();
 
-  if (elf64Reader_.Is(binaryReader))
+  if (Elf64Reader::Is(binaryReader))
     return ELF64;
 
   return UnknownBinary;

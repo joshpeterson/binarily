@@ -13,14 +13,14 @@ TEST_CASE("Binary Reader")
 
   SECTION("Can read first byte from a file")
   {
-    uint8_t value;
+    uint8_t value = 0;
     reader.ReadByte(value);
     REQUIRE(value == 0);
   }
 
   SECTION("Can read second byte from a file")
   {
-    uint8_t value;
+    uint8_t value = 0;
     reader.ReadByte(value);
     reader.ReadByte(value);
     REQUIRE(value == 0x61);
@@ -29,7 +29,7 @@ TEST_CASE("Binary Reader")
   SECTION("Can detect end of file")
   {
     int bytes = 0;
-    uint8_t value;
+    uint8_t value = 0;
     while (reader.ReadByte(value))
       bytes++;
     REQUIRE(bytes == 115);

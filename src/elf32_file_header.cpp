@@ -20,9 +20,9 @@ Bitness Elf32FileHeader::GetBitness() const { return ThirtyTwoBit; }
 
 Endianness Elf32FileHeader::GetEndianness() const
 {
-  if (header_.e_ident[EI_DATA] == 1)
+  if (header_.e_ident[EiData] == 1)
     return LittleEndian;
-  if (header_.e_ident[EI_DATA] == 2)
+  if (header_.e_ident[EiData] == 2)
     return BigEndian;
   return UnknownEndian;
 }

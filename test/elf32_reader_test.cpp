@@ -8,8 +8,7 @@ using namespace binarily;
 static bool IsElf32(const char* filePath)
 {
   BinaryReader reader(filePath);
-  Elf32Reader elf32Reader;
-  return elf32Reader.Is(reader);
+  return Elf32Reader::Is(reader);
 }
 
 TEST_CASE("ELF 32-bit Reader")

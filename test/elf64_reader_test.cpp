@@ -8,8 +8,7 @@ using namespace binarily;
 static bool IsElf64(const char* filePath)
 {
   BinaryReader reader(filePath);
-  Elf64Reader elf64Reader;
-  return elf64Reader.Is(reader);
+  return Elf64Reader::Is(reader);
 }
 
 TEST_CASE("ELF 64-bit Reader")

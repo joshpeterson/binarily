@@ -16,7 +16,7 @@ using Elf32_Lword = uint64_t;
 
 struct Elf32_Ehdr // NOLINT
 {
-  unsigned char e_ident[EI_NIDENT];
+  unsigned char e_ident[EiNident];
   Elf32_Half e_type;
   Elf32_Half e_machine;
   Elf32_Word e_version;

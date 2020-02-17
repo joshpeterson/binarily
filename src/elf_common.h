@@ -1,5 +1,5 @@
 #pragma once
 
-#define EI_NIDENT 16
-#define EI_CLASS 0x04
-#define EI_DATA 0x05
+constexpr int EiNident = 16;
+constexpr int EiClass = 0x04;
+constexpr int EiData = 0x05;

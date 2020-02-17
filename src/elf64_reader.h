@@ -8,7 +8,7 @@ class BinaryReader;
 class Elf64Reader
 {
 public:
-  bool Is(const BinaryReader& reader) const;
+  static bool Is(const BinaryReader& reader);
 };
 
 } // namespace binarily

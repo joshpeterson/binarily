@@ -19,10 +19,7 @@ public:
 private:
   BinaryType type_;
 
-  Elf32Reader elf32Reader_;
-  Elf64Reader elf64Reader_;
-
-  BinaryType TypeFor(BinaryReader& binaryReader);
+  static BinaryType TypeFor(BinaryReader& binaryReader);
 };
 
 } // namespace binarily
