@@ -3,6 +3,7 @@ set(SOURCES
   "elf_reader_test.cpp"
   "elf32_file_header_test.cpp"
   "elf32_reader_test.cpp"
+  "elf64_file_header_test.cpp"
   "elf64_reader_test.cpp"
   "logger_test.cpp"
   "type_detector_test.cpp"
