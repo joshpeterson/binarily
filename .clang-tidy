@@ -16,6 +16,13 @@ Checks: >
   -llvm-header-guard,
   -fuchsia-statically-constructed-objects,
   -google-build-using-namespace,
+  -modernize-use-trailing-return-type,
+  -fuchsia-default-arguments-calls,
+  -readability-magic-numbers,
+  -cppcoreguidelines-avoid-magic-numbers,
+  -cppcoreguidelines-avoid-c-arrays,
+  -hicpp-avoid-c-arrays,
+  -modernize-avoid-c-arrays,
 WarningsAsErrors: '*'
 HeaderFilterRegex: 'src/.*'
 AnalyzeTemporaryDtors: false

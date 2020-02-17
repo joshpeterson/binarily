@@ -10,24 +10,24 @@ jobs:
   include:
     - stage: prebuild
       name: "Verify code formating"
-      dist: trusty
+      dist: xenial
       before_install:
         - wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
-        - sudo apt-add-repository "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-7 main"
-        - sudo apt-add-repository "deb http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu trusty main"
+        - sudo apt-add-repository "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-10 main"
+        - sudo apt-add-repository "deb http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu xenial main"
         - sudo apt-get update -qq
-        - sudo apt-get install -y --allow-unauthenticated clang-format-7
+        - sudo apt-get install -y --allow-unauthenticated clang-format-10
       script: ./tools/run-clang-format.py -r src test bench
     - stage: prebuild
       name: "Static analysis"
-      dist: trusty
-      env: TIDY=clang-tidy-7
+      dist: xenial
+      env: TIDY=clang-tidy-10
       before_install:
         - wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
-        - sudo apt-add-repository "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-7 main"
-        - sudo apt-add-repository "deb http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu trusty main"
+        - sudo apt-add-repository "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-10 main"
+        - sudo apt-add-repository "deb http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu xenial main"
         - sudo apt-get update -qq
-        - sudo apt-get install -y --allow-unauthenticated clang-tidy-7
+        - sudo apt-get install -y --allow-unauthenticated clang-tidy-10
       script: ./tools/tidy
     - stage: build
       name: "MacOS"
@@ -41,10 +41,10 @@ jobs:
         - pip install gspread oauth2client gitpython --ignore-installed six --user
       script: ./build
     - stage: build
-      name: "Clang 7"
+      name: "Clang 10"
       os: linux
       sudo: required
-      dist: trusty
+      dist: xenial
       addons:
         apt:
           sources:
@@ -52,23 +52,23 @@ jobs:
           packages:
             - ninja-build
       env:
-        - COMPILER=clang++-7
+        - COMPILER=clang++-10
         - SIZE_NAME="Linux Clang"
       before_install:
         - openssl aes-256-cbc -K $encrypted_9144c756554a_key -iv $encrypted_9144c756554a_iv -in Binarily\ Size\ Data\ Update-fbe2263a6cf6.json.enc -out Binarily\ Size\ Data\ Update-fbe2263a6cf6.json -d
         - pip install --upgrade pip --user
         - pip install gspread oauth2client gitpython --ignore-installed six --user
         - wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
-        - sudo apt-add-repository "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-7 main"
-        - sudo apt-add-repository "deb http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu trusty main"
+        - sudo apt-add-repository "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-10 main"
+        - sudo apt-add-repository "deb http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu xenial main"
         - sudo apt-get update -qq
-        - sudo apt-get install -y --allow-unauthenticated libstdc++6 clang++-7
+        - sudo apt-get install -y --allow-unauthenticated libstdc++6 clang++-10
       script: ./build
     - stage: build
       name: "GCC 8"
       os: linux
       sudo: required
-      dist: trusty
+      dist: xenial
       addons:
         apt:
           sources:
@@ -112,56 +112,56 @@ jobs:
       name: "Address sanitizer"
       os: linux
       sudo: required
-      dist: trusty
+      dist: xenial
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
           packages:
             - ninja-build
-      env: COMPILER=clang++-7
+      env: COMPILER=clang++-10
       before_install:
         - wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
-        - sudo apt-add-repository "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-7 main"
-        - sudo apt-add-repository "deb http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu trusty main"
+        - sudo apt-add-repository "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-10 main"
+        - sudo apt-add-repository "deb http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu xenial main"
         - sudo apt-get update -qq
-        - sudo apt-get install -y --allow-unauthenticated libstdc++6 clang++-7
+        - sudo apt-get install -y --allow-unauthenticated libstdc++6 clang++-10
       script: ./tools/build-asan
     - stage: sanitizers
       name: "Thread sanitizer"
       os: linux
       sudo: required
-      dist: trusty
+      dist: xenial
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
           packages:
             - ninja-build
-      env: COMPILER=clang++-7
+      env: COMPILER=clang++-10
       before_install:
         - wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
-        - sudo apt-add-repository "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-7 main"
-        - sudo apt-add-repository "deb http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu trusty main"
+        - sudo apt-add-repository "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-10 main"
+        - sudo apt-add-repository "deb http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu xenial main"
         - sudo apt-get update -qq
-        - sudo apt-get install -y --allow-unauthenticated libstdc++6 clang++-7
+        - sudo apt-get install -y --allow-unauthenticated libstdc++6 clang++-10
       script: ./tools/build-tsan
     - stage: sanitizers
       name: "Undefined behavior sanitizer"
       os: linux
       sudo: required
-      dist: trusty
+      dist: xenial
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
           packages:
             - ninja-build
-      env: COMPILER=clang++-7
+      env: COMPILER=clang++-10
       before_install:
         - wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
-        - sudo apt-add-repository "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-7 main"
-        - sudo apt-add-repository "deb http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu trusty main"
+        - sudo apt-add-repository "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-10 main"
+        - sudo apt-add-repository "deb http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu xenial main"
         - sudo apt-get update -qq
-        - sudo apt-get install -y --allow-unauthenticated libstdc++6 clang++-7
+        - sudo apt-get install -y --allow-unauthenticated libstdc++6 clang++-10
       script: ./tools/build-ubsan
