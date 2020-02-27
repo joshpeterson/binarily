@@ -11,7 +11,8 @@ BinaryType ElfReader::ElfTypeFor(const BinaryReader* binaryReader)
   auto bytesRead = binaryReader->ReadBytes(header);
   if (bytesRead == 4)
   {
-    LOG("Read 4 bytes of the file header");
+    LOGF("Read 4 bytes of the file header: {0:#x} {1:#x} {2:#x} {3:#x}",
+         header[0], header[1], header[2], header[3]);
     const std::array<uint8_t, 4> elfHeader{{0x7F, 0x45, 0x4c, 0x46}};
     if (header == elfHeader)
     {

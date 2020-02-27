@@ -38,6 +38,9 @@ target_link_libraries(${LIB_NAME} PRIVATE fmt-header-only)
 
 target_include_directories(${LIB_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
+SET_SOURCE_FILES_PROPERTIES(main.cpp PROPERTIES
+  OBJECT_DEPENDS ${CMAKE_SOURCE_DIR}/web/shell_minimal.html)
+
 add_executable(${PROJECT_NAME} main.cpp)
 add_sanitizers(${PROJECT_NAME})
 target_link_libraries(${PROJECT_NAME} PRIVATE ${LIB_NAME} gsl)
@@ -54,6 +57,12 @@ else()
   target_compile_options(${LIB_NAME} PRIVATE "-fno-exceptions")
   target_compile_options(${LIB_NAME} PRIVATE "-fno-rtti")
 endif()
+
+if (EMSCRIPTEN)
+  set(CMAKE_EXE_LINKER_FLAGS "--shell-file ${CMAKE_SOURCE_DIR}/web/shell_minimal.html -s NO_EXIT_RUNTIME=1  -s \"EXTRA_EXPORTED_RUNTIME_METHODS=['ccall']\"")
+  set(CMAKE_EXECUTABLE_SUFFIX ".html")
+endif()
+
 
 option(ENABLE_LOGGING "Enable logging" OFF)
 if(ENABLE_LOGGING)
