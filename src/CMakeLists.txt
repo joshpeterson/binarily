@@ -1,6 +1,7 @@
 set(SOURCES
   "binary_reader.h"
-  "binary_reader.cpp"
+  "binary_file_reader.h"
+  "binary_file_reader.cpp"
   "binary_type.h"
   "elf_common.h"
   "elf_common.cpp"

@@ -10,7 +10,7 @@ class BinaryReader;
 class Elf32Reader
 {
 public:
-  static bool Is(const BinaryReader& reader);
+  static bool Is(const BinaryReader* reader);
 };
 
 } // namespace binarily

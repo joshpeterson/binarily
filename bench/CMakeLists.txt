@@ -1,5 +1,5 @@
 set(SOURCES
-  "binary_reader_bench.cpp"
+  "binary_file_reader_bench.cpp"
 )
 
 set(LIB_NAME ${PROJECT_NAME}_lib)

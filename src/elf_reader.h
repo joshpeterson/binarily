@@ -10,7 +10,7 @@ class BinaryReader;
 class ElfReader
 {
 public:
-  static BinaryType ElfTypeFor(const BinaryReader& binaryReader);
+  static BinaryType ElfTypeFor(const BinaryReader* binaryReader);
 };
 
 } // namespace binarily

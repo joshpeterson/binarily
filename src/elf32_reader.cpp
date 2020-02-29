@@ -4,7 +4,7 @@
 namespace binarily
 {
 
-bool Elf32Reader::Is(const BinaryReader& reader)
+bool Elf32Reader::Is(const BinaryReader* reader)
 {
   return ElfReader::ElfTypeFor(reader) == ELF32;
 }

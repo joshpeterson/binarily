@@ -14,7 +14,7 @@ class BinaryReader;
 class Elf64FileHeader : public FileHeader
 {
 public:
-  explicit Elf64FileHeader(const BinaryReader& reader);
+  explicit Elf64FileHeader(const BinaryReader* reader);
 
   Bitness GetBitness() const override;
   Endianness GetEndianness() const override;

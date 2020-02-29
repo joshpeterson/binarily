@@ -1,11 +1,11 @@
-#include "binary_reader.h"
+#include "binary_file_reader.h"
 #include "logger.h"
 #include <cassert>
 
 namespace binarily
 {
 
-BinaryReader::BinaryReader(const char* file_path)
+BinaryFileReader::BinaryFileReader(const char* file_path)
     : buffer_(), current_(bufferSize_), bufferUsedSize_(0)
 {
   LOGF("Attempting to open file '{}'", file_path);
@@ -13,15 +13,15 @@ BinaryReader::BinaryReader(const char* file_path)
   LOGF("File open {}: {}", file_ ? "succeeded" : "failed", (void*)file_);
 }
 
-BinaryReader::~BinaryReader()
+BinaryFileReader::~BinaryFileReader()
 {
   if (file_ != nullptr)
     fclose(file_);
 }
 
-bool BinaryReader::Exists() const { return file_ != nullptr; }
+bool BinaryFileReader::Exists() const { return file_ != nullptr; }
 
-bool BinaryReader::ReadByte(uint8_t& value) const
+bool BinaryFileReader::ReadByte(uint8_t& value) const
 {
   if (current_ >= bufferUsedSize_)
   {
@@ -34,7 +34,7 @@ bool BinaryReader::ReadByte(uint8_t& value) const
   return true;
 }
 
-int BinaryReader::ReadBytes(gsl::span<uint8_t> buffer) const
+int BinaryFileReader::ReadBytes(gsl::span<uint8_t> buffer) const
 {
   int bytes = 0;
   for (auto& value : buffer)
@@ -49,7 +49,7 @@ int BinaryReader::ReadBytes(gsl::span<uint8_t> buffer) const
   return bytes;
 }
 
-void BinaryReader::Reset()
+void BinaryFileReader::Reset()
 {
   int error = fseek(file_, 0, SEEK_SET);
   current_ = bufferSize_;

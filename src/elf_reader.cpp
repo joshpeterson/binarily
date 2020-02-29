@@ -5,10 +5,10 @@
 namespace binarily
 {
 
-BinaryType ElfReader::ElfTypeFor(const BinaryReader& binaryReader)
+BinaryType ElfReader::ElfTypeFor(const BinaryReader* binaryReader)
 {
   std::array<uint8_t, 4> header{};
-  auto bytesRead = binaryReader.ReadBytes(header);
+  auto bytesRead = binaryReader->ReadBytes(header);
   if (bytesRead == 4)
   {
     LOG("Read 4 bytes of the file header");
@@ -19,7 +19,7 @@ BinaryType ElfReader::ElfTypeFor(const BinaryReader& binaryReader)
       const uint8_t bitness_32 = 1;
       const uint8_t bitness_64 = 2;
       uint8_t bitness = 0;
-      if (binaryReader.ReadByte(bitness))
+      if (binaryReader->ReadByte(bitness))
       {
         if (bitness == bitness_32)
         {
