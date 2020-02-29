@@ -12,14 +12,14 @@ class BinaryReader;
 class TypeDetector
 {
 public:
-  explicit TypeDetector(BinaryReader& binaryReader);
+  explicit TypeDetector(BinaryReader* binaryReader);
 
   BinaryType Type() const;
 
 private:
   BinaryType type_;
 
-  static BinaryType TypeFor(BinaryReader& binaryReader);
+  static BinaryType TypeFor(BinaryReader* binaryReader);
 };
 
 } // namespace binarily

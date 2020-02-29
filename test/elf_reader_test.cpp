@@ -1,6 +1,6 @@
 #include "catch.hpp"
 
-#include "binary_reader.h"
+#include "binary_file_reader.h"
 #include "elf_reader.h"
 #include "type_detector.h"
 
@@ -8,8 +8,8 @@ using namespace binarily;
 
 static BinaryType GetTypeFor(const char* filePath)
 {
-  BinaryReader reader(filePath);
-  return ElfReader::ElfTypeFor(reader);
+  BinaryFileReader reader(filePath);
+  return ElfReader::ElfTypeFor(&reader);
 }
 
 TEST_CASE("ELF Reader")

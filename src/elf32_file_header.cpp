@@ -7,7 +7,7 @@
 namespace binarily
 {
 
-Elf32FileHeader::Elf32FileHeader(const BinaryReader& reader) : header_()
+Elf32FileHeader::Elf32FileHeader(const BinaryReader* reader) : header_()
 {
   header_ = ElfCommon::ReadFileHeader(reader);
 }

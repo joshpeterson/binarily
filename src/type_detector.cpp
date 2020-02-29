@@ -7,20 +7,20 @@
 namespace binarily
 {
 
-TypeDetector::TypeDetector(BinaryReader& binaryReader) : type_(UnknownBinary)
+TypeDetector::TypeDetector(BinaryReader* binaryReader) : type_(UnknownBinary)
 {
-  assert(binaryReader.Exists());
+  assert(binaryReader->Exists());
   type_ = TypeFor(binaryReader);
 }
 
 BinaryType TypeDetector::Type() const { return type_; }
 
-BinaryType TypeDetector::TypeFor(BinaryReader& binaryReader)
+BinaryType TypeDetector::TypeFor(BinaryReader* binaryReader)
 {
   if (Elf32Reader::Is(binaryReader))
     return ELF32;
 
-  binaryReader.Reset();
+  binaryReader->Reset();
 
   if (Elf64Reader::Is(binaryReader))
     return ELF64;

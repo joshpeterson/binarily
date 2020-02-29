@@ -6,11 +6,11 @@
 namespace binarily
 {
 
-Elf_Ehdr ElfCommon::ReadFileHeader(const BinaryReader& reader)
+Elf_Ehdr ElfCommon::ReadFileHeader(const BinaryReader* reader)
 {
   Elf_Ehdr header = {};
   std::array<uint8_t, sizeof(header)> buffer{};
-  int bytesRead = reader.ReadBytes(buffer);
+  int bytesRead = reader->ReadBytes(buffer);
   LOGF("Read {} bytes from header_ file of {} bytes expected", bytesRead,
        sizeof(header));
   std::memcpy(&header, buffer.data(), bytesRead);

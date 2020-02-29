@@ -39,7 +39,7 @@ struct Elf_Ehdr // NOLINT
 
 struct ElfCommon
 {
-  static Elf_Ehdr ReadFileHeader(const BinaryReader& reader);
+  static Elf_Ehdr ReadFileHeader(const BinaryReader* reader);
   static Endianness GetEndianness(const Elf_Ehdr& header);
 };
 

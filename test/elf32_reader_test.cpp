@@ -1,14 +1,14 @@
 #include "catch.hpp"
 
-#include "binary_reader.h"
+#include "binary_file_reader.h"
 #include "elf32_reader.h"
 
 using namespace binarily;
 
 static bool IsElf32(const char* filePath)
 {
-  BinaryReader reader(filePath);
-  return Elf32Reader::Is(reader);
+  BinaryFileReader reader(filePath);
+  return Elf32Reader::Is(&reader);
 }
 
 TEST_CASE("ELF 32-bit Reader")

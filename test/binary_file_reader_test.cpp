@@ -3,13 +3,13 @@
 #include <array>
 #include <cstring>
 
-#include "binary_reader.h"
+#include "binary_file_reader.h"
 
 using namespace binarily;
 
 TEST_CASE("Binary Reader")
 {
-  BinaryReader reader("../../test/data/simple.wasm");
+  BinaryFileReader reader("../../test/data/simple.wasm");
 
   SECTION("Can read first byte from a file")
   {
@@ -118,6 +118,6 @@ TEST_CASE("Binary Reader")
 
 TEST_CASE("Can handle a missing file")
 {
-  BinaryReader reader("Does not exist");
+  BinaryFileReader reader("Does not exist");
   REQUIRE(!reader.Exists());
 }
