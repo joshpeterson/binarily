@@ -7,7 +7,7 @@
 
 using namespace binarily;
 
-TEST_CASE("Binary Reader")
+TEST_CASE("Binary File Reader")
 {
   BinaryFileReader reader("../../test/data/simple.wasm");
 
@@ -116,7 +116,7 @@ TEST_CASE("Binary Reader")
   }
 }
 
-TEST_CASE("Can handle a missing file")
+TEST_CASE("Binary file reader can handle a missing file")
 {
   BinaryFileReader reader("Does not exist");
   REQUIRE(!reader.Exists());

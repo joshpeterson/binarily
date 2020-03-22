@@ -23,6 +23,9 @@ Checks: >
   -cppcoreguidelines-avoid-c-arrays,
   -hicpp-avoid-c-arrays,
   -modernize-avoid-c-arrays,
+  -llvm-qualified-auto,
+  -readability-qualified-auto,
+  -cppcoreguidelines-pro-bounds-pointer-arithmetic
 WarningsAsErrors: '*'
 HeaderFilterRegex: 'src/.*'
 AnalyzeTemporaryDtors: false
@@ -125,7 +128,7 @@ CheckOptions:
   - key:             readability-identifier-naming.ConstantMemberPrefix
     value:           ''
   - key:             readability-identifier-naming.ConstantMemberSuffix
-    value:           ''
+    value:           '_'
   - key:             readability-identifier-naming.ConstantParameterCase
     value:           aNy_CasE
   - key:             readability-identifier-naming.ConstantParameterPrefix

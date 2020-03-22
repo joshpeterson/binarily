@@ -1,4 +1,5 @@
 set(SOURCES
+  "binary_buffer_reader_test.cpp"
   "binary_file_reader_test.cpp"
   "elf_reader_test.cpp"
   "elf32_file_header_test.cpp"
@@ -26,6 +27,7 @@ target_compile_definitions(${TEST_NAME} PRIVATE CATCH_CONFIG_CONSOLE_WIDTH=60)
 if (MSVC)
   target_compile_options(${TEST_NAME} PRIVATE "/WX")
   target_compile_options(${TEST_NAME} PRIVATE "/W4")
+  add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 else()
   target_compile_options(${TEST_NAME} PRIVATE "-Wall")
   target_compile_options(${TEST_NAME} PRIVATE "-Wextra")
