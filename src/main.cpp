@@ -1,5 +1,6 @@
-#include <cstdio>
+#if __EMSCPIPTEN__
 #include <emscripten/emscripten.h>
+#endif
 
 #include "binary_buffer_reader.h"
 #include "type_detector.h"
@@ -8,10 +9,13 @@ using namespace binarily;
 
 int main(int /*argc*/, char** /*argv*/)
 {
+#if __EMSCPIPTEN__
   EM_ASM("enableFileInput();");
+#endif
   return 0;
 }
 
+#if __EMSCPIPTEN__
 extern "C"
 {
   const char* EMSCRIPTEN_KEEPALIVE loadFileData(const uint8_t* buffer, int size)
@@ -27,3 +31,4 @@ extern "C"
     return "Unknown binary";
   }
 }
+#endif

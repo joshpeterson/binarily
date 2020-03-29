@@ -7,6 +7,10 @@ if (NOT EMSCRIPTEN)
   add_subdirectory(thirdparty/benchmark)
 endif()
 
+if(DEFINED ENV{BINARILY_ENABLE_LOGGING})
+  set(ENABLE_LOGGING ON)
+endif()
+
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/thirdparty/sanitizers-cmake/cmake" ${CMAKE_MODULE_PATH})
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_STANDARD 11)

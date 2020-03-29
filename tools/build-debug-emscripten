@@ -15,8 +15,6 @@ fi
 if [ -z "$CXX" ]; then
   export CXX=em++
 fi
-# Use this line to build with logging enabled
-#cmake -DCMAKE_BUILD_TYPE=Debug -DEMSCRIPTEN=ON -DENABLE_LOGGING=ON ../..
 cmake -DCMAKE_BUILD_TYPE=Debug -DEMSCRIPTEN=ON ../..
 make
 node test/tests.js
