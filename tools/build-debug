@@ -15,8 +15,6 @@ fi
 if [ -z "$CXX" ]; then
   export CXX=clang++
 fi
-# Use this line to build with logging enabled
-#cmake -DCMAKE_BUILD_TYPE=Debug -DENABLE_LOGGING=ON ../.. -GNinja
 cmake -DCMAKE_BUILD_TYPE=Debug ../.. -GNinja
 ninja
 ./test/tests

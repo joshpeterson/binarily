@@ -8,7 +8,7 @@ namespace binarily
 BinaryBufferReader::BinaryBufferReader(const uint8_t* buffer, size_t size)
     : buffer_(buffer), size_(size), current_(0)
 {
-  LOGF("Read buffer {} of size {}", buffer_, size_);
+  LOGF("Read buffer {} of size {}", (void*)buffer_, size_);
 }
 
 bool BinaryBufferReader::Exists() const { return buffer_ != nullptr; }
@@ -52,8 +52,8 @@ void BinaryBufferReader::Reset() { current_ = 0; }
 
 bool BinaryBufferReader::Advance(int distance) const
 {
-  LOGF("Advancing buffer {} (size {}) from {} to {}", buffer_, size_, current_,
-       current_ + distance);
+  LOGF("Advancing buffer {} (size {}) from {} to {}", (void*)buffer_, size_,
+       current_, current_ + distance);
   if (current_ + distance > size_)
     return false;
 
@@ -63,7 +63,8 @@ bool BinaryBufferReader::Advance(int distance) const
 
 const uint8_t* BinaryBufferReader::GetCurrent() const
 {
-  LOGF("Getting buffer {} (size {}) at location {}", buffer_, size_, current_);
+  LOGF("Getting buffer {} (size {}) at location {}", (void*)buffer_, size_,
+       current_);
   assert(current_ <= size_);
   return &buffer_[current_];
 }
