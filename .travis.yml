@@ -30,17 +30,6 @@ jobs:
         - sudo apt-get install -y --allow-unauthenticated clang-tidy-10
       script: ./tools/tidy
     - stage: build
-      name: "MacOS"
-      os: osx
-      env: SIZE_NAME="macOS Clang"
-      before_install:
-        - brew update
-        - brew install ninja
-        - openssl aes-256-cbc -K $encrypted_9144c756554a_key -iv $encrypted_9144c756554a_iv -in Binarily\ Size\ Data\ Update-fbe2263a6cf6.json.enc -out Binarily\ Size\ Data\ Update-fbe2263a6cf6.json -d
-        - pip install --upgrade pip --user
-        - pip install gspread oauth2client gitpython --ignore-installed six --user
-      script: ./build
-    - stage: build
       name: "Clang 10"
       os: linux
       sudo: required
@@ -53,11 +42,7 @@ jobs:
             - ninja-build
       env:
         - COMPILER=clang++-10
-        - SIZE_NAME="Linux Clang"
       before_install:
-        - openssl aes-256-cbc -K $encrypted_9144c756554a_key -iv $encrypted_9144c756554a_iv -in Binarily\ Size\ Data\ Update-fbe2263a6cf6.json.enc -out Binarily\ Size\ Data\ Update-fbe2263a6cf6.json -d
-        - pip install --upgrade pip --user
-        - pip install gspread oauth2client gitpython --ignore-installed six --user
         - wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
         - sudo apt-add-repository "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-10 main"
         - sudo apt-add-repository "deb http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu xenial main"
@@ -78,21 +63,7 @@ jobs:
             - ninja-build
       env:
         - COMPILER=g++-8
-        - SIZE_NAME="Linux GCC"
-      before_install:
-        - openssl aes-256-cbc -K $encrypted_9144c756554a_key -iv $encrypted_9144c756554a_iv -in Binarily\ Size\ Data\ Update-fbe2263a6cf6.json.enc -out Binarily\ Size\ Data\ Update-fbe2263a6cf6.json -d
-        - pip install --upgrade pip --user
-        - pip install gspread oauth2client gitpython --ignore-installed six --user
       script: ./build
-    - stage: build
-      name: "Windows Visual Studio 2017"
-      os: windows
-      filter_secrets: false
-      env:
-        - MSBUILD_PATH="c:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\MSBuild\15.0\Bin"
-      script:
-        - export PATH=$MSBUILD_PATH:$PATH
-        - ./build.bat
     - stage: build
       name: "Emscripten"
       language: nodejs
@@ -103,11 +74,8 @@ jobs:
         - docker
       before_install:
         - docker run -dit --name emscripten -v $(pwd):/src trzeci/emscripten bash
-        - docker exec -it emscripten openssl aes-256-cbc -K $encrypted_9144c756554a_key -iv $encrypted_9144c756554a_iv -in Binarily\ Size\ Data\ Update-fbe2263a6cf6.json.enc -out Binarily\ Size\ Data\ Update-fbe2263a6cf6.json -d
-        - docker exec -it emscripten pip install setuptools
-        - docker exec -it emscripten pip install gspread oauth2client gitpython --ignore-installed six --user
       script:
-        - docker exec -it emscripten bash -c "SIZE_NAME=Emscripten ./tools/build-emscripten"
+        - docker exec -it emscripten bash -c "./tools/build-emscripten"
     - stage: sanitizers
       name: "Address sanitizer"
       os: linux
