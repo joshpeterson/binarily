@@ -39,6 +39,7 @@ jobs:
           sources:
             - ubuntu-toolchain-r-test
           packages:
+            - g++-8
             - ninja-build
       env:
         - COMPILER=clang++-10
@@ -47,7 +48,7 @@ jobs:
         - sudo apt-add-repository "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-10 main"
         - sudo apt-add-repository "deb http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu xenial main"
         - sudo apt-get update -qq
-        - sudo apt-get install -y --allow-unauthenticated libstdc++6 clang++-10
+        - sudo apt-get install -y --allow-unauthenticated clang++-10
       script: ./build
     - stage: build
       name: "GCC 8"
@@ -86,6 +87,7 @@ jobs:
           sources:
             - ubuntu-toolchain-r-test
           packages:
+            - g++-8
             - ninja-build
       env: COMPILER=clang++-10
       before_install:
@@ -93,7 +95,7 @@ jobs:
         - sudo apt-add-repository "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-10 main"
         - sudo apt-add-repository "deb http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu xenial main"
         - sudo apt-get update -qq
-        - sudo apt-get install -y --allow-unauthenticated libstdc++6 clang++-10
+        - sudo apt-get install -y --allow-unauthenticated clang++-10
       script: ./tools/build-asan
     - stage: sanitizers
       name: "Thread sanitizer"
@@ -105,6 +107,7 @@ jobs:
           sources:
             - ubuntu-toolchain-r-test
           packages:
+            - g++-8
             - ninja-build
       env: COMPILER=clang++-10
       before_install:
@@ -112,7 +115,7 @@ jobs:
         - sudo apt-add-repository "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-10 main"
         - sudo apt-add-repository "deb http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu xenial main"
         - sudo apt-get update -qq
-        - sudo apt-get install -y --allow-unauthenticated libstdc++6 clang++-10
+        - sudo apt-get install -y --allow-unauthenticated clang++-10
       script: ./tools/build-tsan
     - stage: sanitizers
       name: "Undefined behavior sanitizer"
@@ -124,6 +127,7 @@ jobs:
           sources:
             - ubuntu-toolchain-r-test
           packages:
+            - g++-8
             - ninja-build
       env: COMPILER=clang++-10
       before_install:
@@ -131,5 +135,5 @@ jobs:
         - sudo apt-add-repository "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-10 main"
         - sudo apt-add-repository "deb http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu xenial main"
         - sudo apt-get update -qq
-        - sudo apt-get install -y --allow-unauthenticated libstdc++6 clang++-10
+        - sudo apt-get install -y --allow-unauthenticated clang++-10
       script: ./tools/build-ubsan
