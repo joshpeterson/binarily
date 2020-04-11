@@ -14,7 +14,7 @@ class TypeDetector
 public:
   explicit TypeDetector(BinaryReader* binaryReader);
 
-  BinaryType Type() const;
+  [[nodiscard]] BinaryType Type() const;
 
 private:
   BinaryType type_;

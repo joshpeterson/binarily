@@ -21,6 +21,12 @@ jobs:
     - stage: prebuild
       name: "Static analysis"
       dist: xenial
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-8
       env: TIDY=clang-tidy-10
       before_install:
         - wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
