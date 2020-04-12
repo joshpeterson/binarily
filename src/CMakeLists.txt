@@ -44,6 +44,7 @@ SET_SOURCE_FILES_PROPERTIES(main.cpp PROPERTIES
 add_executable(${PROJECT_NAME} main.cpp)
 add_sanitizers(${PROJECT_NAME})
 target_link_libraries(${PROJECT_NAME} PRIVATE ${LIB_NAME} gsl)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${LIB_NAME} json)
 if (MSVC)
   target_compile_options(${LIB_NAME} PRIVATE "/W4")
   target_compile_options(${LIB_NAME} PRIVATE "/WX")
