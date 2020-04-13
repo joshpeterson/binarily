@@ -19,8 +19,8 @@ enum Endianness
 class FileHeader
 {
 public:
-  virtual Bitness GetBitness() const = 0;
-  virtual Endianness GetEndianness() const = 0;
+  [[nodiscard]] virtual Bitness GetBitness() const = 0;
+  [[nodiscard]] virtual Endianness GetEndianness() const = 0;
 };
 
 } // namespace binarily

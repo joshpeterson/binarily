@@ -14,4 +14,4 @@ else
   FILES="$1"
 fi
 echo Checking $FILES
-$TIDY $FILES --quiet --fix --format-style=file -config='' -- -std=c++11 -Ithirdparty/catch/include -Ithirdparty/gsl -Ithirdparty/benchmark/include -Ithirdparty/fmt/include -Ithirdparty/nlohmann -Isrc
+$TIDY $FILES --quiet --fix --format-style=file -config='' -- -std=c++17 -Ithirdparty/catch/include -Ithirdparty/gsl -Ithirdparty/benchmark/include -Ithirdparty/fmt/include -Ithirdparty/nlohmann -Isrc
