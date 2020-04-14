@@ -16,6 +16,7 @@ class Elf32FileHeader : public FileHeader
 public:
   explicit Elf32FileHeader(const BinaryReader* reader);
 
+  [[nodiscard]] BinaryType GetType() const override;
   [[nodiscard]] Bitness GetBitness() const override;
   [[nodiscard]] Endianness GetEndianness() const override;
 
