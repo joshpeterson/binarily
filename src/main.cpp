@@ -34,6 +34,9 @@ extern "C"
       data["type"] = "Unknown binary";
 
     auto jsonString = data.dump();
+
+    // The memory allocated for jsonCopyForJs will be freed on the JavaScript
+    // side.
     auto jsonCopyForJs = (char*)malloc(jsonString.size() + 1);
     strcpy(jsonCopyForJs, jsonString.c_str());
 
