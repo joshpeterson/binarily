@@ -22,9 +22,11 @@
         var heapSpace = Module._malloc(typedArray.length);
         Module.HEAPU8.set(typedArray, heapSpace);
 
-        var fileData = Module.ccall('loadFileData', 'string', ['number', 'number'], [heapSpace, typedArray.length]);
+        var fileData = Module.ccall('loadFileData', 'number', ['number', 'number'], [heapSpace, typedArray.length]);
 
-        msg.innerText = fileData;
+        msg.innerText = UTF8ToString(fileData);
+
+        Module._free(fileData);
       }
     </script>
   </head>
