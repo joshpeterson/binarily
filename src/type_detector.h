@@ -1,8 +1,8 @@
 #pragma once
 
-#include "binary_type.h"
 #include "elf32_reader.h"
 #include "elf64_reader.h"
+#include "file_data.h"
 
 namespace binarily
 {
