@@ -6,7 +6,10 @@ set(SOURCES
   "elf32_reader_test.cpp"
   "elf64_file_header_test.cpp"
   "elf64_reader_test.cpp"
+  "file_data_test.cpp"
   "logger_test.cpp"
+  "test_utils.h"
+  "test_utils.cpp"
   "type_detector_test.cpp"
 )
 
@@ -22,7 +25,7 @@ endif(EMSCRIPTEN)
 
 add_executable(${TEST_NAME} test_main.cpp ${SOURCES})
 add_sanitizers(${TEST_NAME})
-target_link_libraries(${TEST_NAME} PRIVATE ${LIB_NAME} catch gsl fmt-header-only)
+target_link_libraries(${TEST_NAME} PRIVATE ${LIB_NAME} catch gsl fmt-header-only json)
 target_compile_definitions(${TEST_NAME} PRIVATE CATCH_CONFIG_CONSOLE_WIDTH=60)
 if (MSVC)
   target_compile_options(${TEST_NAME} PRIVATE "/WX")

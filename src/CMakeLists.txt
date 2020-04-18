@@ -4,7 +4,6 @@ set(SOURCES
   "binary_buffer_reader.cpp"
   "binary_file_reader.h"
   "binary_file_reader.cpp"
-  "binary_type.h"
   "elf_common.h"
   "elf_common.cpp"
   "elf_reader.h"
@@ -19,6 +18,8 @@ set(SOURCES
   "elf64_file_header.cpp"
   "elf64_reader.h"
   "elf64_reader.cpp"
+  "file_data.h"
+  "file_data.cpp"
   "file_header.h"
   "logger.h"
   "logger.cpp"
@@ -35,6 +36,7 @@ add_sanitizers(${LIB_NAME})
 set_target_properties(${LIB_NAME} PROPERTIES OUTPUT_NAME ${PROJECT_NAME})
 target_link_libraries(${LIB_NAME} PRIVATE gsl)
 target_link_libraries(${LIB_NAME} PRIVATE fmt-header-only)
+target_link_libraries(${LIB_NAME} PRIVATE json)
 
 target_include_directories(${LIB_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 

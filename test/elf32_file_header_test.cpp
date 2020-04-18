@@ -14,6 +14,13 @@ static Endianness GetEndiannessFor(const char* filePath)
 
 TEST_CASE("ELF32 File Header")
 {
+  SECTION("Knows the proper type")
+  {
+    BinaryFileReader reader("../../test/data/simple_elf32");
+    Elf32FileHeader header(&reader);
+    REQUIRE(header.GetType() == ELF32);
+  }
+
   SECTION("Knows the proper bitness")
   {
     BinaryFileReader reader("../../test/data/simple_elf32");

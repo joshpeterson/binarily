@@ -8,23 +8,14 @@
 #include <sys/stat.h>
 
 #include "binary_buffer_reader.h"
+#include "test_utils.h"
 
 using namespace binarily;
 
 TEST_CASE("Binary Buffer Reader")
 {
-  const char* filename = "../../test/data/simple.wasm";
-  struct stat stat_buf
-  {
-  };
-  int rc = stat(filename, &stat_buf);
-  auto size = rc == 0 ? stat_buf.st_size : -1;
-  std::vector<uint8_t> buffer;
-  buffer.reserve(size);
-  auto file = fopen(filename, "r");
-  auto bytes_read = fread(buffer.data(), 1, size, file);
-  fclose(file);
-  BinaryBufferReader reader(buffer.data(), bytes_read);
+  auto buffer = TestUtils::LoadFile("../../test/data/simple.wasm");
+  BinaryBufferReader reader(buffer.data(), buffer.size());
 
   SECTION("Can read first byte from a buffer")
   {

@@ -13,6 +13,8 @@ Elf64FileHeader::Elf64FileHeader(const BinaryReader* reader) : header_()
   header_ = ElfCommon::ReadFileHeader(reader);
 }
 
+BinaryType Elf64FileHeader::GetType() const { return ELF64; }
+
 Bitness Elf64FileHeader::GetBitness() const { return SixtyFourBit; }
 
 Endianness Elf64FileHeader::GetEndianness() const

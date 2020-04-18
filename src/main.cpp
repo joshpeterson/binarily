@@ -2,9 +2,9 @@
 #include <emscripten/emscripten.h>
 #endif
 
-#include "binary_buffer_reader.h"
-#include "type_detector.h"
 #include <json.hpp>
+
+#include "file_data.h"
 
 using namespace binarily;
 using json = nlohmann::json;
@@ -22,21 +22,11 @@ extern "C"
 {
   const char* EMSCRIPTEN_KEEPALIVE loadFileData(const uint8_t* buffer, int size)
   {
-    json data;
-    BinaryBufferReader reader(buffer, size);
-    TypeDetector detector(&reader);
-    auto type = detector.Type();
-    if (type == ELF32)
-      data["type"] = "Elf 32-bit";
-    else if (type == ELF64)
-      data["type"] = "Elf 64-bit";
-    else
-      data["type"] = "Unknown binary";
-
-    auto jsonString = data.dump();
+    json fileData(FileData::Load(buffer, size));
 
     // The memory allocated for jsonCopyForJs will be freed on the JavaScript
     // side.
+    auto jsonString = fileData.dump();
     auto jsonCopyForJs = (char*)malloc(jsonString.size() + 1);
     strcpy(jsonCopyForJs, jsonString.c_str());
 

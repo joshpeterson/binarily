@@ -48,4 +48,14 @@ BinaryType ElfReader::ElfTypeFor(const BinaryReader* binaryReader)
   return UnknownBinary;
 }
 
+FileData ElfReader::GetFileData(const FileHeader& header)
+{
+  FileData fileData = {};
+  fileData.header.type = header.GetType();
+  fileData.header.bitness = header.GetBitness();
+  fileData.header.endianness = header.GetEndianness();
+
+  return fileData;
+}
+
 } // namespace binarily
