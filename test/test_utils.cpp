@@ -14,6 +14,7 @@ std::vector<uint8_t> TestUtils::LoadFile(const char* filePath)
   std::vector<uint8_t> buffer(size);
   auto file = fopen(filePath, "r");
   auto bytes_read = fread(buffer.data(), 1, size, file);
+  (void)bytes_read;
   assert(bytes_read == buffer.size());
   fclose(file);
 
