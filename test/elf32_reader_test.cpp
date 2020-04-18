@@ -37,18 +37,18 @@ TEST_CASE("ELF 32-bit Reader")
   SECTION("Returns file data with proper type")
   {
     auto fileData = GetFileData("../../test/data/simple_elf32");
-    REQUIRE(fileData.type == ELF32);
+    REQUIRE(fileData.header.type == ELF32);
   }
 
   SECTION("Returns file data with proper bitness")
   {
     auto fileData = GetFileData("../../test/data/simple_elf32");
-    REQUIRE(fileData.bitness == ThirtyTwoBit);
+    REQUIRE(fileData.header.bitness == ThirtyTwoBit);
   }
 
   SECTION("Returns file data with proper endianness")
   {
     auto fileData = GetFileData("../../test/data/simple_elf32");
-    REQUIRE(fileData.endianness == LittleEndian);
+    REQUIRE(fileData.header.endianness == LittleEndian);
   }
 }

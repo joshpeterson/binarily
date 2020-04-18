@@ -51,9 +51,9 @@ BinaryType ElfReader::ElfTypeFor(const BinaryReader* binaryReader)
 const FileData ElfReader::GetFileData(const FileHeader& header)
 {
   FileData fileData = {};
-  fileData.type = header.GetType();
-  fileData.bitness = header.GetBitness();
-  fileData.endianness = header.GetEndianness();
+  fileData.header.type = header.GetType();
+  fileData.header.bitness = header.GetBitness();
+  fileData.header.endianness = header.GetEndianness();
 
   return fileData;
 }

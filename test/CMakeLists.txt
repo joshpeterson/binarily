@@ -8,6 +8,8 @@ set(SOURCES
   "elf64_reader_test.cpp"
   "file_data_test.cpp"
   "logger_test.cpp"
+  "test_utils.h"
+  "test_utils.cpp"
   "type_detector_test.cpp"
 )
 

@@ -28,18 +28,30 @@ enum Endianness
   LittleEndian
 };
 
-struct FileData
+struct FileDataHeader
 {
   BinaryType type;
   Bitness bitness;
   Endianness endianness;
 };
 
+struct FileData
+{
+  FileDataHeader header;
+
+  static FileData Load(const uint8_t* buffer, int size);
+};
+
+inline void to_json(json& j, const FileDataHeader& fileDataHeader)
+{
+  j = json{{"type", fileDataHeader.type},
+           {"bitness", fileDataHeader.bitness},
+           {"endianness", fileDataHeader.endianness}};
+}
+
 inline void to_json(json& j, const FileData& fileData)
 {
-  j = json{{"type", fileData.type},
-           {"bitness", fileData.bitness},
-           {"endianness", fileData.endianness}};
+  j = json{{"header", fileData.header}};
 }
 
 inline void to_json(json& j, const BinaryType& type)

@@ -1,6 +1,7 @@
 #include "catch.hpp"
 
 #include "file_data.h"
+#include "test_utils.h"
 
 #include <json.hpp>
 #include <string>
@@ -33,12 +34,12 @@ TEST_CASE("File Data")
     REQUIRE(json(BigEndian) == "Big Endian");
   }
 
-  SECTION("Can serialize FileData to JSON")
+  SECTION("Can serialize FileDataHeader to JSON")
   {
-    FileData fileData;
-    fileData.type = ELF64;
-    fileData.bitness = SixtyFourBit;
-    fileData.endianness = LittleEndian;
+    FileDataHeader fileDataHeader;
+    fileDataHeader.type = ELF64;
+    fileDataHeader.bitness = SixtyFourBit;
+    fileDataHeader.endianness = LittleEndian;
 
     const char* expected = R"({)"
                            R"("bitness":"64-bit",)"
@@ -46,6 +47,46 @@ TEST_CASE("File Data")
                            R"("type":"ELF 64-bit Binary")"
                            R"(})";
 
+    REQUIRE(json(fileDataHeader).dump() == expected);
+  }
+
+  SECTION("Can serialize FileData to JSON")
+  {
+    FileData fileData;
+    fileData.header.type = ELF64;
+    fileData.header.bitness = SixtyFourBit;
+    fileData.header.endianness = LittleEndian;
+
+    const char* expected = R"({)"
+                           R"("header":)"
+                           R"({)"
+                           R"("bitness":"64-bit",)"
+                           R"("endianness":"Little Endian",)"
+                           R"("type":"ELF 64-bit Binary")"
+                           R"(})"
+                           R"(})";
+
     REQUIRE(json(fileData).dump() == expected);
+  }
+
+  SECTION("Can load FileData for an ELF 32-bit binary")
+  {
+    auto buffer = TestUtils::LoadFile("../../test/data/simple_elf32");
+    auto fileData = FileData::Load(buffer.data(), buffer.size());
+    REQUIRE(fileData.header.type == ELF32);
+  }
+
+  SECTION("Can load FileData for an ELF 64-bit binary")
+  {
+    auto buffer = TestUtils::LoadFile("../../test/data/simple_elf64");
+    auto fileData = FileData::Load(buffer.data(), buffer.size());
+    REQUIRE(fileData.header.type == ELF64);
+  }
+
+  SECTION("Can load FileData for an unkown binary")
+  {
+    auto buffer = TestUtils::LoadFile("../../test/data/unknown_binary");
+    auto fileData = FileData::Load(buffer.data(), buffer.size());
+    REQUIRE(fileData.header.type == UnknownBinary);
   }
 }
