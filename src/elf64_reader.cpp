@@ -11,7 +11,7 @@ bool Elf64Reader::Is(const BinaryReader* reader)
   return ElfReader::ElfTypeFor(reader) == ELF64;
 }
 
-const FileData Elf64Reader::GetFileData(const BinaryReader* reader)
+FileData Elf64Reader::GetFileData(const BinaryReader* reader)
 {
   const Elf64FileHeader header(reader);
   return ElfReader::GetFileData(header);

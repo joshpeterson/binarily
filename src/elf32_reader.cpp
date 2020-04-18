@@ -11,7 +11,7 @@ bool Elf32Reader::Is(const BinaryReader* reader)
   return ElfReader::ElfTypeFor(reader) == ELF32;
 }
 
-const FileData Elf32Reader::GetFileData(const BinaryReader* reader)
+FileData Elf32Reader::GetFileData(const BinaryReader* reader)
 {
   const Elf32FileHeader header(reader);
   return ElfReader::GetFileData(header);

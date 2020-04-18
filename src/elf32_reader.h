@@ -12,7 +12,7 @@ class Elf32Reader
 {
 public:
   static bool Is(const BinaryReader* reader);
-  static const FileData GetFileData(const BinaryReader* reader);
+  static FileData GetFileData(const BinaryReader* reader);
 };
 
 } // namespace binarily

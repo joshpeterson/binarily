@@ -13,7 +13,7 @@ class ElfReader
 {
 public:
   static BinaryType ElfTypeFor(const BinaryReader* binaryReader);
-  static const FileData GetFileData(const FileHeader& header);
+  static FileData GetFileData(const FileHeader& header);
 };
 
 } // namespace binarily

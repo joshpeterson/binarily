@@ -48,7 +48,7 @@ BinaryType ElfReader::ElfTypeFor(const BinaryReader* binaryReader)
   return UnknownBinary;
 }
 
-const FileData ElfReader::GetFileData(const FileHeader& header)
+FileData ElfReader::GetFileData(const FileHeader& header)
 {
   FileData fileData = {};
   fileData.header.type = header.GetType();

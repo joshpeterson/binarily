@@ -36,7 +36,7 @@ TEST_CASE("File Data")
 
   SECTION("Can serialize FileDataHeader to JSON")
   {
-    FileDataHeader fileDataHeader;
+    FileDataHeader fileDataHeader = {};
     fileDataHeader.type = ELF64;
     fileDataHeader.bitness = SixtyFourBit;
     fileDataHeader.endianness = LittleEndian;
@@ -52,7 +52,7 @@ TEST_CASE("File Data")
 
   SECTION("Can serialize FileData to JSON")
   {
-    FileData fileData;
+    FileData fileData = {};
     fileData.header.type = ELF64;
     fileData.header.bitness = SixtyFourBit;
     fileData.header.endianness = LittleEndian;
