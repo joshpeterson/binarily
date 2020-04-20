@@ -40,8 +40,7 @@ target_link_libraries(${LIB_NAME} PRIVATE json)
 
 target_include_directories(${LIB_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
-SET_SOURCE_FILES_PROPERTIES(main.cpp PROPERTIES
-  OBJECT_DEPENDS ${CMAKE_SOURCE_DIR}/web/shell_minimal.html)
+SET_SOURCE_FILES_PROPERTIES(main.cpp PROPERTIES OBJECT_DEPENDS ${CMAKE_SOURCE_DIR}/web/shell_minimal.html)
 
 add_executable(${PROJECT_NAME} main.cpp)
 add_sanitizers(${PROJECT_NAME})
@@ -62,6 +61,8 @@ else()
 endif()
 
 if (EMSCRIPTEN)
+  configure_file(${CMAKE_SOURCE_DIR}/web/binarily.svg binarily.svg COPYONLY)
+  configure_file(${CMAKE_SOURCE_DIR}/web/favicon.ico favicon.ico COPYONLY)
   set(CMAKE_EXE_LINKER_FLAGS "--shell-file ${CMAKE_SOURCE_DIR}/web/shell_minimal.html -s NO_EXIT_RUNTIME=1  -s \"EXTRA_EXPORTED_RUNTIME_METHODS=['ccall']\"")
   set(CMAKE_EXECUTABLE_SUFFIX ".html")
 endif()

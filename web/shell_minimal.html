@@ -2,9 +2,148 @@
 <html lang="en-us">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="icon" href="/favicon.ico?v=2" type="image/x-icon">
+    <script src="https://kit.fontawesome.com/0993ce7aba.js" crossorigin="anonymous"></script>
     <title>Binarily</title>
+    <style>
+      #drop-area {
+      }
+      #drop-area.highlight {
+        background-color: lightgrey;
+      }
+    </style>
     <script>
+      /*
+      function getTestJSON() {
+        return '{"header":{"type":"ELF 64-bit Binary","bitness":"64-bit","endianness":"Unknown Endianness"}}';
+      }
+
+      window.onload = function() {
+        updateGUI(getTestJSON());
+        enableFileInput();
+      }
+      */
+
+      function updateGUI(json) {
+        var data = JSON.parse(json);
+        var tableOfContents = document.getElementById("tableOfContents");
+        removeChildren(tableOfContents);
+        for (const section in data) {
+          tableOfContents.appendChild(getTocRow(capitalize(section)));
+
+          var mainContent = document.getElementById("mainContent");
+          removeChildren(mainContent);
+          mainContent.appendChild(getHeaderMainContent(data.header));
+
+          var extraContent = document.getElementById("extraContent");
+          removeChildren(extraContent);
+          extraContent.appendChild(getHeaderExtraContent(data.header));
+        }
+      }
+
+      function removeChildren(element) {
+        while (element.firstChild) {
+              element.removeChild(element.firstChild);
+        }
+      }
+
+      function capitalize(s) {
+        if (typeof s !== 'string') return ''
+        return s.charAt(0).toUpperCase() + s.slice(1)
+      }
+
+      function getTocRow(text) {
+        var div = document.createElement("div");
+        div.setAttribute("class","row border p-1");
+        div.innerText = text;
+        return div;
+      }
+
+      function getPre(text) {
+        var pre = document.createElement("pre");
+        pre.innerText = text;
+        return pre;
+      }
+
+      function getHeaderMainContent(header) {
+          var text = "";
+          for (const entry in header) {
+            text += capitalize(entry) + ": " + header[entry] + "\n";
+          }
+          return getPre(text);
+      }
+
+      function getHeaderExtraContent(header) {
+          if (header.type.includes("ELF"))
+            return getLinuxIcon();
+          return getUnknownIcon();
+      }
+
+      function getLinuxIcon() {
+        var i = document.createElement("i");
+        i.setAttribute("class","fab fa-linux");
+        return centerText(wrapInDisplay1(i));
+      }
+
+      function getUnknownIcon() {
+        var i = document.createElement("i");
+        i.setAttribute("class","fas fa-question-circle");
+        return centerText(wrapInDisplay1(i));
+      }
+
+      function wrapInDisplay1(element) {
+        var h1 = document.createElement("h1");
+        h1.setAttribute("class", "display-1")
+        h1.appendChild(element);
+        return h1;
+      }
+
+      function centerText(element) {
+        var s = document.createElement("span");
+        s.setAttribute("class", "text-center");
+        s.appendChild(element);
+        return s;
+      }
+
+      function setupDragAndDrop() {
+        // From https://www.smashingmagazine.com/2018/01/drag-drop-file-uploader-vanilla-js/
+        let dropArea = document.getElementById('drop-area');
+
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+          dropArea.addEventListener(eventName, preventDefaults, false)
+        });
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+          dropArea.addEventListener(eventName, highlight, false)
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+          dropArea.addEventListener(eventName, unhighlight, false)
+        });
+
+        dropArea.addEventListener('drop', handleDrop, false);
+
+        function highlight(e) {
+          dropArea.classList.add('highlight')
+        }
+
+        function unhighlight(e) {
+          dropArea.classList.remove('highlight')
+        }
+
+        function handleDrop(e) {
+          inspectFile(e.dataTransfer);
+        }
+
+        function preventDefaults (e) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      }
+
       function readFile(file) {
         return new Promise((resolve, reject) => {
           let fr = new FileReader();
@@ -14,9 +153,12 @@
 
       function enableFileInput() {
         document.getElementById("fileInput").disabled = false;
+        document.getElementById("button").setAttribute("class", "btn-lg btn-primary");
+        document.getElementById("dropText").setAttribute("class", "text-dark");
+        setupDragAndDrop();
       }
 
-      async function analyzeFile(input) {
+      async function inspectFile(input) {
         var fileBuffer = await readFile(input.files[0]);
         const typedArray = new Uint8Array(fileBuffer);
         var heapSpace = Module._malloc(typedArray.length);
@@ -24,16 +166,54 @@
 
         var fileData = Module.ccall('loadFileData', 'number', ['number', 'number'], [heapSpace, typedArray.length]);
 
-        msg.innerText = UTF8ToString(fileData);
+        updateGUI(UTF8ToString(fileData));
 
         Module._free(fileData);
       }
     </script>
   </head>
   <body>
-    Choose a file to analyze: <input type="file" id="fileInput" onchange="analyzeFile(this)" disabled/>
-    <h3>File Information</h3>
-    <pre id="msg"></pre>
+    <div id="drop-area">
+    <div class="container-fluid p-3 h-100">
+      <div class="row align-items-center h-100">
+        <div class="col-4 text-left p-1">
+          <h1 class="display-4" style="font-family: monospace;">
+            Binarily <img src="binarily.svg" style="width:60px;height:60px;">
+          </h1>
+        </div>
+        <div class="col-4 text-center">
+          <label class="btn-lg btn-secondary" id="button">
+            <i class="fas fa-file-upload"></i> &nbsp Choose a file to inspect<input type="file" id="fileInput" onchange="inspectFile(this)" hidden disabled>
+          </label>
+          <div class="text-muted" id="dropText">
+            (Or drop one anywhere on the page)
+          </div>
+        </div>
+        <div class="col-4 text-right">
+          <h4>
+            Inspect binary files
+          </h4>
+        </div>
+      </div>
+    </div>
+
     {{{ SCRIPT }}}
+
+    <div class="container-fluid" style="height: 600px;">
+      <div class="row p-1 h-100"> 
+        <div class="col-2 border" id="tableOfContents">
+        </div>
+        <div class="col-8 border p-1" id="mainContent">
+        </div>
+        <div class="col-2 border p-1" id="extraContent">
+        </div>
+      </div>
+    </div>
+    <footer id="sticky-footer">
+      <div class="container text-center p-3">
+        Privacy policy: This site gathers no personal data or uses cookies. Analyzed files are never saved or uploaded. | <a href="https://github.com/joshpeterson/binarily">Get the source code</a> | &copy; <a href="https://joshpeterson.github.io/">Josh Peterson</a>
+      </div>
+    </footer>
+  </div>
   </body>
 </html>
