@@ -16,6 +16,7 @@ FileData FileData::Load(const uint8_t* buffer, int size)
 {
   BinaryBufferReader reader(buffer, size);
   TypeDetector detector(&reader);
+  reader.Reset();
   auto type = detector.Type();
   if (type == ELF32)
     return Elf32Reader::GetFileData(&reader);

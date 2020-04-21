@@ -11,7 +11,7 @@ Elf_Ehdr ElfCommon::ReadFileHeader(const BinaryReader* reader)
   Elf_Ehdr header = {};
   std::array<uint8_t, sizeof(header)> buffer{};
   int bytesRead = reader->ReadBytes(buffer);
-  LOGF("Read {} bytes from header_ file of {} bytes expected", bytesRead,
+  LOGF("Read {} bytes from file header of {} bytes expected", bytesRead,
        sizeof(header));
   std::memcpy(&header, buffer.data(), bytesRead);
   return header;
@@ -19,6 +19,7 @@ Elf_Ehdr ElfCommon::ReadFileHeader(const BinaryReader* reader)
 
 Endianness ElfCommon::GetEndianness(const Elf_Ehdr& header)
 {
+  LOGF("Reading endianness {} from header", header.e_ident[EiData]);
   if (header.e_ident[EiData] == 1)
     return LittleEndian;
   if (header.e_ident[EiData] == 2)
