@@ -74,6 +74,8 @@ TEST_CASE("File Data")
     auto buffer = TestUtils::LoadFile("../../test/data/simple_elf32");
     auto fileData = FileData::Load(buffer.data(), buffer.size());
     REQUIRE(fileData.header.type == ELF32);
+    REQUIRE(fileData.header.bitness == ThirtyTwoBit);
+    REQUIRE(fileData.header.endianness == LittleEndian);
   }
 
   SECTION("Can load FileData for an ELF 64-bit binary")
@@ -81,6 +83,8 @@ TEST_CASE("File Data")
     auto buffer = TestUtils::LoadFile("../../test/data/simple_elf64");
     auto fileData = FileData::Load(buffer.data(), buffer.size());
     REQUIRE(fileData.header.type == ELF64);
+    REQUIRE(fileData.header.bitness == SixtyFourBit);
+    REQUIRE(fileData.header.endianness == LittleEndian);
   }
 
   SECTION("Can load FileData for an unkown binary")
@@ -88,5 +92,7 @@ TEST_CASE("File Data")
     auto buffer = TestUtils::LoadFile("../../test/data/unknown_binary");
     auto fileData = FileData::Load(buffer.data(), buffer.size());
     REQUIRE(fileData.header.type == UnknownBinary);
+    REQUIRE(fileData.header.bitness == UnknownBitness);
+    REQUIRE(fileData.header.endianness == UnknownEndian);
   }
 }
