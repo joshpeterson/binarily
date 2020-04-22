@@ -62,6 +62,8 @@ endif()
 
 if (EMSCRIPTEN)
   configure_file(${CMAKE_SOURCE_DIR}/web/binarily.svg binarily.svg COPYONLY)
+  configure_file(${CMAKE_SOURCE_DIR}/web/linux-brands.svg linux-brands.svg COPYONLY)
+  configure_file(${CMAKE_SOURCE_DIR}/web/question-circle-solid.svg question-circle-solid.svg COPYONLY)
   configure_file(${CMAKE_SOURCE_DIR}/web/favicon.ico favicon.ico COPYONLY)
   set(CMAKE_EXE_LINKER_FLAGS "--shell-file ${CMAKE_SOURCE_DIR}/web/shell_minimal.html -s NO_EXIT_RUNTIME=1  -s \"EXTRA_EXPORTED_RUNTIME_METHODS=['ccall']\"")
   set(CMAKE_EXECUTABLE_SUFFIX ".html")
