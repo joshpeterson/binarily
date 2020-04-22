@@ -6,7 +6,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="icon" href="/favicon.ico?v=2" type="image/x-icon">
-    <script src="https://kit.fontawesome.com/0993ce7aba.js" crossorigin="anonymous"></script>
     <title>Binarily</title>
     <style>
       #drop-area {
@@ -70,10 +69,14 @@
 
       function getHeaderMainContent(header) {
           var text = "";
-          for (const entry in header) {
-            text += capitalize(entry) + ": " + header[entry] + "\n";
-          }
+          text += formatHeaderLine("Type", header.type);
+          text += formatHeaderLine("Bitness", header.bitness);
+          text += formatHeaderLine("Endianness", header.endianness);
           return getPre(text);
+      }
+
+      function formatHeaderLine(name, value) {
+          return name + ": " + value + "\n";
       }
 
       function getHeaderExtraContent(header) {
@@ -83,15 +86,15 @@
       }
 
       function getLinuxIcon() {
-        var i = document.createElement("i");
-        i.setAttribute("class","fab fa-linux");
-        return centerText(wrapInDisplay1(i));
+        var img = document.createElement("img");
+        img.setAttribute("src","linux-brands.svg");
+        return img;
       }
 
       function getUnknownIcon() {
-        var i = document.createElement("i");
-        i.setAttribute("class","fas fa-question-circle");
-        return centerText(wrapInDisplay1(i));
+        var img = document.createElement("img");
+        img.setAttribute("src","question-circle-solid.svg");
+        return img;
       }
 
       function wrapInDisplay1(element) {
@@ -211,7 +214,7 @@
     </div>
     <footer id="sticky-footer">
       <div class="container text-center p-3">
-        Privacy policy: This site gathers no personal data or uses cookies. Analyzed files are never saved or uploaded. | <a href="https://github.com/joshpeterson/binarily">Get the source code</a> | &copy; <a href="https://joshpeterson.github.io/">Josh Peterson</a>
+        <a href="https://github.com/joshpeterson/binarily/blob/master/PRIVACY.md">Privacy policy</a> | <a href="https://github.com/joshpeterson/binarily">Source code</a> | &copy; <a href="https://joshpeterson.github.io/">Josh Peterson</a> | Some images from <a href="https://fontawesome.com/license">Font Awesome</a>
       </div>
     </footer>
   </div>
