@@ -41,6 +41,7 @@ target_link_libraries(${LIB_NAME} PRIVATE json)
 target_include_directories(${LIB_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 SET_SOURCE_FILES_PROPERTIES(main.cpp PROPERTIES OBJECT_DEPENDS ${CMAKE_SOURCE_DIR}/web/shell_minimal.html)
+SET_SOURCE_FILES_PROPERTIES(main.cpp PROPERTIES OBJECT_DEPENDS ${CMAKE_SOURCE_DIR}/web/script.js)
 
 add_executable(${PROJECT_NAME} main.cpp)
 add_sanitizers(${PROJECT_NAME})
@@ -61,6 +62,7 @@ else()
 endif()
 
 if (EMSCRIPTEN)
+  configure_file(${CMAKE_SOURCE_DIR}/web/script.js script.js COPYONLY)
   configure_file(${CMAKE_SOURCE_DIR}/web/binarily.svg binarily.svg COPYONLY)
   configure_file(${CMAKE_SOURCE_DIR}/web/linux-brands.svg linux-brands.svg COPYONLY)
   configure_file(${CMAKE_SOURCE_DIR}/web/question-circle-solid.svg question-circle-solid.svg COPYONLY)

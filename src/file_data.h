@@ -44,9 +44,12 @@ struct FileData
 
 inline void to_json(json& j, const FileDataHeader& fileDataHeader)
 {
-  j = json{{"type", fileDataHeader.type},
-           {"bitness", fileDataHeader.bitness},
-           {"endianness", fileDataHeader.endianness}};
+  j = json{{"type", fileDataHeader.type}};
+  if (fileDataHeader.type != UnknownBinary)
+  {
+    j["bitness"] = fileDataHeader.bitness;
+    j["endianness"] = fileDataHeader.endianness;
+  }
 }
 
 inline void to_json(json& j, const FileData& fileData)

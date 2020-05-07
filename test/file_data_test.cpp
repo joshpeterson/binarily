@@ -69,6 +69,21 @@ TEST_CASE("File Data")
     REQUIRE(json(fileData).dump() == expected);
   }
 
+  SECTION("Can serialize FileData to JSON for an unknown binary")
+  {
+    FileData fileData = {};
+    fileData.header.type = UnknownBinary;
+
+    const char* expected = R"({)"
+                           R"("header":)"
+                           R"({)"
+                           R"("type":"Unknown Binary")"
+                           R"(})"
+                           R"(})";
+
+    REQUIRE(json(fileData).dump() == expected);
+  }
+
   SECTION("Can load FileData for an ELF 32-bit binary")
   {
     auto buffer = TestUtils::LoadFile("../../test/data/simple_elf32");
