@@ -8,180 +8,35 @@
     <link rel="icon" href="/favicon.ico?v=2" type="image/x-icon">
     <title>Binarily</title>
     <style>
+      body {
+          height: 100vh;
+      }
+      .scroll{
+          height: calc(100vh * (4/5));
+          overflow-y: scroll;
+      }
       #drop-area {
       }
       #drop-area.highlight {
         background-color: lightgrey;
       }
+      #logo {
+        width: 60px;
+        height: 60px;
+      }
+      #name {
+        font-family: monospace;
+      }
     </style>
-    <script>
-      /*
-      function getTestJSON() {
-        return '{"header":{"type":"ELF 64-bit Binary","bitness":"64-bit","endianness":"Unknown Endianness"}}';
-      }
-
-      window.onload = function() {
-        updateGUI(getTestJSON());
-        enableFileInput();
-      }
-      */
-
-      function updateGUI(json) {
-        var data = JSON.parse(json);
-        var tableOfContents = document.getElementById("tableOfContents");
-        removeChildren(tableOfContents);
-        for (const section in data) {
-          tableOfContents.appendChild(getTocRow(capitalize(section)));
-
-          var mainContent = document.getElementById("mainContent");
-          removeChildren(mainContent);
-          mainContent.appendChild(getHeaderMainContent(data.header));
-
-          var extraContent = document.getElementById("extraContent");
-          removeChildren(extraContent);
-          extraContent.appendChild(getHeaderExtraContent(data.header));
-        }
-      }
-
-      function removeChildren(element) {
-        while (element.firstChild) {
-              element.removeChild(element.firstChild);
-        }
-      }
-
-      function capitalize(s) {
-        if (typeof s !== 'string') return ''
-        return s.charAt(0).toUpperCase() + s.slice(1)
-      }
-
-      function getTocRow(text) {
-        var div = document.createElement("div");
-        div.setAttribute("class","row border p-1");
-        div.innerText = text;
-        return div;
-      }
-
-      function getPre(text) {
-        var pre = document.createElement("pre");
-        pre.innerText = text;
-        return pre;
-      }
-
-      function getHeaderMainContent(header) {
-          var text = "";
-          text += formatHeaderLine("Type", header.type);
-          text += formatHeaderLine("Bitness", header.bitness);
-          text += formatHeaderLine("Endianness", header.endianness);
-          return getPre(text);
-      }
-
-      function formatHeaderLine(name, value) {
-          return name + ": " + value + "\n";
-      }
-
-      function getHeaderExtraContent(header) {
-          if (header.type.includes("ELF"))
-            return getLinuxIcon();
-          return getUnknownIcon();
-      }
-
-      function getLinuxIcon() {
-        var img = document.createElement("img");
-        img.setAttribute("src","linux-brands.svg");
-        return img;
-      }
-
-      function getUnknownIcon() {
-        var img = document.createElement("img");
-        img.setAttribute("src","question-circle-solid.svg");
-        return img;
-      }
-
-      function wrapInDisplay1(element) {
-        var h1 = document.createElement("h1");
-        h1.setAttribute("class", "display-1")
-        h1.appendChild(element);
-        return h1;
-      }
-
-      function centerText(element) {
-        var s = document.createElement("span");
-        s.setAttribute("class", "text-center");
-        s.appendChild(element);
-        return s;
-      }
-
-      function setupDragAndDrop() {
-        // From https://www.smashingmagazine.com/2018/01/drag-drop-file-uploader-vanilla-js/
-        let dropArea = document.getElementById('drop-area');
-
-        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-          dropArea.addEventListener(eventName, preventDefaults, false)
-        });
-
-        ['dragenter', 'dragover'].forEach(eventName => {
-          dropArea.addEventListener(eventName, highlight, false)
-        });
-
-        ['dragleave', 'drop'].forEach(eventName => {
-          dropArea.addEventListener(eventName, unhighlight, false)
-        });
-
-        dropArea.addEventListener('drop', handleDrop, false);
-
-        function highlight(e) {
-          dropArea.classList.add('highlight')
-        }
-
-        function unhighlight(e) {
-          dropArea.classList.remove('highlight')
-        }
-
-        function handleDrop(e) {
-          inspectFile(e.dataTransfer);
-        }
-
-        function preventDefaults (e) {
-          e.preventDefault();
-          e.stopPropagation();
-        }
-      }
-
-      function readFile(file) {
-        return new Promise((resolve, reject) => {
-          let fr = new FileReader();
-          fr.onload = x=> resolve(fr.result);
-          fr.readAsArrayBuffer(file);
-      })}
-
-      function enableFileInput() {
-        document.getElementById("fileInput").disabled = false;
-        document.getElementById("button").setAttribute("class", "btn-lg btn-primary");
-        document.getElementById("dropText").setAttribute("class", "text-dark");
-        setupDragAndDrop();
-      }
-
-      async function inspectFile(input) {
-        var fileBuffer = await readFile(input.files[0]);
-        const typedArray = new Uint8Array(fileBuffer);
-        var heapSpace = Module._malloc(typedArray.length);
-        Module.HEAPU8.set(typedArray, heapSpace);
-
-        var fileData = Module.ccall('loadFileData', 'number', ['number', 'number'], [heapSpace, typedArray.length]);
-
-        updateGUI(UTF8ToString(fileData));
-
-        Module._free(fileData);
-      }
-    </script>
+    <script src="script.js"></script>
   </head>
   <body>
     <div id="drop-area">
     <div class="container-fluid p-3 h-100">
       <div class="row align-items-center h-100">
         <div class="col-4 text-left p-1">
-          <h1 class="display-4" style="font-family: monospace;">
-            Binarily <img src="binarily.svg" style="width:60px;height:60px;">
+          <h1 class="display-4" id="name">
+            Binarily <img id="logo" src="binarily.svg"> <span id="icon"></span>
           </h1>
         </div>
         <div class="col-4 text-center">
@@ -202,13 +57,11 @@
 
     {{{ SCRIPT }}}
 
-    <div class="container-fluid" style="height: 600px;">
-      <div class="row p-1 h-100"> 
-        <div class="col-2 border" id="tableOfContents">
+    <div class="container-fluid">
+      <div class="row p-1 h-100">
+        <div class="col-2 border scroll" id="tableOfContents">
         </div>
-        <div class="col-8 border p-1" id="mainContent">
-        </div>
-        <div class="col-2 border p-1" id="extraContent">
+        <div class="col-10 border p-1 scroll" id="mainContent">
         </div>
       </div>
     </div>
