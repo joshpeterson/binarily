@@ -1,6 +1,0 @@
-#!/bin/sh
-set -e
-./tools/build-release-debug-info
-cd artifacts/RelWithDebInfo/bench
-./bench "$@"
-cd ../../..
