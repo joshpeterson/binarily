@@ -1,0 +1,11 @@
+#!/bin/sh
+if [ -d artifacts/ReleaseEmscripten/deploy ]; then
+  rm artifacts/ReleaseEmscripten/deploy/*
+else
+  mkdir artifacts/ReleaseEmscripten/deploy
+fi
+cp artifacts/ReleaseEmscripten/src/binarily.html artifacts/ReleaseEmscripten/deploy/index.html
+cp artifacts/ReleaseEmscripten/src/*.js artifacts/ReleaseEmscripten/deploy
+cp artifacts/ReleaseEmscripten/src/*.wasm artifacts/ReleaseEmscripten/deploy
+cp artifacts/ReleaseEmscripten/src/*.svg artifacts/ReleaseEmscripten/deploy
+cp artifacts/ReleaseEmscripten/src/*.ico artifacts/ReleaseEmscripten/deploy
