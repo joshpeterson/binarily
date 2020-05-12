@@ -157,7 +157,7 @@ jobs:
         - docker exec -it emscripten bash -c "./tools/deploy"
       deploy:
         provider: pages:git
-        token: GITHUB_PAGES_TOKEN
+        deploy_key: GITHUB_PAGES_TOKEN
         edge: true
         local_dir: artifacts/ReleaseEmscripten/deploy
         commit_message: Deploy %{project_name} to %{url}:%{target_branch} from %{git_branch} at %{git_sha}
