@@ -27,19 +27,33 @@
       #name {
         font-family: monospace;
       }
+      .header-text-left {
+        text-align: center;
+      }
+      .header-text-right {
+        text-align: center;
+      }
+      @media screen and (min-width: 768px) {
+        .header-text-left {
+          text-align: left;
+        }
+        .header-text-right {
+          text-align: right;
+        }
+      }
     </style>
     <script src="script.js"></script>
   </head>
   <body>
     <div id="drop-area">
     <div class="container-fluid p-3 h-100">
-      <div class="row align-items-center h-100">
-        <div class="col-4 text-left p-1">
+      <div class="row align-items-center">
+        <div class="col-sm-4 header-text-left p-1">
           <h1 class="display-4" id="name">
             Binarily <img id="logo" src="binarily.svg"> <span id="icon"></span>
           </h1>
         </div>
-        <div class="col-4 text-center">
+        <div class="col-sm-4 text-center">
           <label class="btn-lg btn-secondary" id="button">
             <i class="fas fa-file-upload"></i> &nbsp Choose a file to inspect<input type="file" id="fileInput" onchange="inspectFile(this)" hidden disabled>
           </label>
@@ -47,7 +61,7 @@
             (Or drop one anywhere on the page)
           </div>
         </div>
-        <div class="col-4 text-right">
+        <div class="col-sm-4 header-text-right">
           <h4>
             Inspect binary files
           </h4>
@@ -57,11 +71,11 @@
 
     {{{ SCRIPT }}}
 
-    <div class="container-fluid">
+    <div class="container-fluid p-3 h-100">
       <div class="row p-1 h-100">
-        <div class="col-2 border scroll" id="tableOfContents">
+        <div class="col-sm-2 border" id="tableOfContents">
         </div>
-        <div class="col-10 border p-1 scroll" id="mainContent">
+        <div class="col-sm-10 border p-1 scroll" id="mainContent">
         </div>
       </div>
     </div>
@@ -73,3 +87,5 @@
   </div>
   </body>
 </html>
+
+
