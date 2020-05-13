@@ -151,6 +151,7 @@ jobs:
       services:
         - docker
       before_install:
+        - openssl aes-256-cbc -K $encrypted_189e52c2c347_key -iv $encrypted_189e52c2c347_iv -in deploy_key.enc -out deploy_key -d
         - docker run -dit --name emscripten -v $(pwd):/src trzeci/emscripten bash
       script:
         - docker exec -it emscripten bash -c "./tools/build-release-emscripten"
@@ -160,4 +161,4 @@ jobs:
         edge: true
         local_dir: artifacts/ReleaseEmscripten/deploy
         commit_message: Deploy %{project_name} to %{url}:%{target_branch} from %{git_branch} at %{git_sha}
-        token: cnGxj6aho0w1sBD+BEDgokNutElVR3/nwWb8t1nTTUM6ULvP0FRoM4HikyR46vtoaomR+7kIn5RQ+IMb+RsO7n1sJTMTIIesD4dnRgycCyoxiw7riFoyVx3zr0ZoLdlmD89li88dqZzHsFWS1g2SoNzL6V+DJYAoQn+gCkz2xzyS7z+ePoHYq0dtJsWkbrEEukGFhUovlaNo1QRlfG6uB5qDuCdUBcwj3wrBSJB/vuzAbQ3A2J/00a0074yUPv0A8YZhfTqSIzfeH0s7QG9dknItTYuPf6CEm5yD9Hq9aK3IQUovakh70jP4HIa2WO//h8N5tTpoeWnEMUp2DBwTwmpyEwTitOYygvHU8K9HEY70TErWIB5nZGGvfTVodLPvn3zlJ1aHw9q8hW7c3KPaD1lf5YDbagSr0JQYTaUO2QSAl8z+RJWbSVLqrUoGilFknCrsYI5uH8bD3JSF6BZDIqQK8pcUU1AQe9jfQKMHB2hYY/nmr2Ac68j7sX/ItZTMaJ6eHM9/F9G7miN7R6Htq8pixz6fT4ilJrT8niYzA3XuMOWHX7Mbeh9wl7PoJZX2QnQcMeWbKfFzDZmSqrZiA6sCHvfciYRw67xeuIJpjbnIntlNwhuM8swS9EQwjQ8lFg3gHNkGg4ryQotlcwnhKCLfsvZNm/0N2SEHjDDkYLU=
+        deploy_key: deploy_key
