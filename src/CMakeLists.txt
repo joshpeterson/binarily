@@ -40,8 +40,7 @@ target_link_libraries(${LIB_NAME} PRIVATE json)
 
 target_include_directories(${LIB_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
-SET_SOURCE_FILES_PROPERTIES(main.cpp PROPERTIES OBJECT_DEPENDS ${CMAKE_SOURCE_DIR}/web/shell_minimal.html)
-SET_SOURCE_FILES_PROPERTIES(main.cpp PROPERTIES OBJECT_DEPENDS ${CMAKE_SOURCE_DIR}/web/script.js)
+SET_SOURCE_FILES_PROPERTIES(main.cpp PROPERTIES OBJECT_DEPENDS "${CMAKE_SOURCE_DIR}/web/shell_minimal.html;${CMAKE_SOURCE_DIR}/web/script.js")
 
 add_executable(${PROJECT_NAME} main.cpp)
 add_sanitizers(${PROJECT_NAME})
