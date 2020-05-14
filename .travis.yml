@@ -160,5 +160,5 @@ jobs:
         provider: pages:git
         edge: true
         local_dir: artifacts/ReleaseEmscripten/deploy
-        commit_message: Deploy %{project_name} to %{url}:%{target_branch} from %{git_branch} at %{git_sha}
+        commit_message: Deploy from %{git_branch} at %{git_sha}
         deploy_key: deploy_key
