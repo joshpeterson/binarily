@@ -139,6 +139,7 @@ function getIcon(fileName) {
   var img = document.createElement("img");
   img.setAttribute("src",fileName);
   img.setAttribute("id", "logo");
+  img.setAttribute("alt", "File type logo");
   return img;
 }
 
