@@ -11,52 +11,31 @@ jobs:
   include:
     - stage: prebuild
       name: "Verify code formating"
-      dist: xenial
+      sudo: required
+      services:
+        - docker
       before_install:
-        - wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
-        - sudo apt-add-repository "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-10 main"
-        - sudo apt-add-repository "deb http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu xenial main"
-        - sudo apt-get update -qq
-        - sudo apt-get install -y --allow-unauthenticated clang-format-10
-      script: ./tools/run-clang-format.py -r src test bench
+        - docker run -dit --name clang -v $(pwd):/src petersonjm1/clang bash
+      script:
+        - docker exec -it clang bash -c "cd src;./tools/run-clang-format.py -r src test bench"
     - stage: prebuild
       name: "Static analysis"
-      dist: xenial
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-8
-      env: TIDY=clang-tidy-10
+      sudo: required
+      services:
+        - docker
       before_install:
-        - wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
-        - sudo apt-add-repository "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-10 main"
-        - sudo apt-add-repository "deb http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu xenial main"
-        - sudo apt-get update -qq
-        - sudo apt-get install -y --allow-unauthenticated clang-tidy-10
-      script: ./tools/tidy
+        - docker run -dit --name clang -v $(pwd):/src petersonjm1/clang bash
+      script:
+        - docker exec -it clang bash -c "cd src;./tools/tidy"
     - stage: build
       name: "Clang 10"
-      os: linux
       sudo: required
-      dist: xenial
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-8
-            - ninja-build
-      env:
-        - COMPILER=clang++-10
+      services:
+        - docker
       before_install:
-        - wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
-        - sudo apt-add-repository "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-10 main"
-        - sudo apt-add-repository "deb http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu xenial main"
-        - sudo apt-get update -qq
-        - sudo apt-get install -y --allow-unauthenticated clang++-10
-      script: ./build
+        - docker run -dit --name clang -v $(pwd):/src petersonjm1/clang bash
+      script:
+        - docker exec -it clang bash -c "cd src;COMPILER=clang++ ./build"
     - stage: build
       name: "GCC 10"
       sudo: required
@@ -77,64 +56,29 @@ jobs:
         - docker exec -it emscripten bash -c "./tools/build-emscripten"
     - stage: sanitizers
       name: "Address sanitizer"
-      os: linux
       sudo: required
-      dist: xenial
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-8
-            - ninja-build
-      env: COMPILER=clang++-10
-      before_install:
-        - wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
-        - sudo apt-add-repository "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-10 main"
-        - sudo apt-add-repository "deb http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu xenial main"
-        - sudo apt-get update -qq
-        - sudo apt-get install -y --allow-unauthenticated clang++-10
-      script: ./tools/build-asan
+      services:
+        - docker
+      script:
+        - docker run --privileged -v $(pwd):/src petersonjm1/clang bash -c "cd src; ./tools/build-asan"
     - stage: sanitizers
       name: "Thread sanitizer"
-      os: linux
       sudo: required
-      dist: xenial
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-8
-            - ninja-build
-      env: COMPILER=clang++-10
+      services:
+        - docker
       before_install:
-        - wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
-        - sudo apt-add-repository "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-10 main"
-        - sudo apt-add-repository "deb http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu xenial main"
-        - sudo apt-get update -qq
-        - sudo apt-get install -y --allow-unauthenticated clang++-10
-      script: ./tools/build-tsan
+        - docker run -dit --name clang -v $(pwd):/src petersonjm1/clang bash
+      script:
+        - docker exec -it clang bash -c "cd src;COMPILER=clang++ ./tools/build-tsan"
     - stage: sanitizers
       name: "Undefined behavior sanitizer"
-      os: linux
       sudo: required
-      dist: xenial
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-8
-            - ninja-build
-      env: COMPILER=clang++-10
+      services:
+        - docker
       before_install:
-        - wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
-        - sudo apt-add-repository "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-10 main"
-        - sudo apt-add-repository "deb http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu xenial main"
-        - sudo apt-get update -qq
-        - sudo apt-get install -y --allow-unauthenticated clang++-10
-      script: ./tools/build-ubsan
+        - docker run -dit --name clang -v $(pwd):/src petersonjm1/clang bash
+      script:
+        - docker exec -it clang bash -c "cd src;COMPILER=clang++ ./tools/build-ubsan"
     - stage: deploy
       name: "Deploy to Github Pages"
       if: branch = master
