@@ -68,14 +68,11 @@ jobs:
         - docker exec -it gcc bash -c "cd src;COMPILER=g++ ./build"
     - stage: build
       name: "Emscripten"
-      language: nodejs
-      node_js:
-        - node
       sudo: required
       services:
         - docker
       before_install:
-        - docker run -dit --name emscripten -v $(pwd):/src trzeci/emscripten bash
+        - docker run -dit --name emscripten -v $(pwd):/src petersonjm1/emscripten bash
       script:
         - docker exec -it emscripten bash -c "./tools/build-emscripten"
     - stage: sanitizers
@@ -146,7 +143,7 @@ jobs:
         - docker
       before_install:
         - openssl aes-256-cbc -K $encrypted_189e52c2c347_key -iv $encrypted_189e52c2c347_iv -in deploy_key.enc -out deploy_key -d
-        - docker run -dit --name emscripten -v $(pwd):/src trzeci/emscripten bash
+        - docker run -dit --name emscripten -v $(pwd):/src petersonjm1/emscripten bash
       script:
         - docker exec -it emscripten bash -c "./tools/build-release-emscripten"
         - docker exec -it emscripten bash -c "./tools/deploy"

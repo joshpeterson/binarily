@@ -40,5 +40,5 @@ else()
 endif()
 
 if (EMSCRIPTEN)
-  set_target_properties(${TEST_NAME} PROPERTIES LINK_FLAGS "--embed-file ../../../test/data -s DISABLE_EXCEPTION_CATCHING=2 -s DEMANGLE_SUPPORT=1")
+  set_target_properties(${TEST_NAME} PROPERTIES LINK_FLAGS "--embed-file ../../test/data -s DISABLE_EXCEPTION_CATCHING=2 -s DEMANGLE_SUPPORT=1")
 endif(EMSCRIPTEN)
