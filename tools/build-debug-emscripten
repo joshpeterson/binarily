@@ -15,7 +15,7 @@ fi
 if [ -z "$CXX" ]; then
   export CXX=em++
 fi
-cmake -DCMAKE_BUILD_TYPE=Debug -DEMSCRIPTEN=ON ../..
-make
+cmake -DCMAKE_BUILD_TYPE=Debug -DEMSCRIPTEN=ON ../.. -GNinja
+ninja
 node test/tests.js
 cd ../..
