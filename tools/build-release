@@ -16,9 +16,21 @@ if [ -z "$CXX" ]; then
   echo "CXX is not set, using clang by default"
   export CXX=clang++
 fi
-cmake -DCMAKE_BUILD_TYPE=Release ../.. -GNinja
+
+CMAKE_ADDITIONAL_ARGS=""
+if [ "$CXX" = "em++" ]; then
+  CMAKE_ADDITIONAL_ARGS=-DEMSCRIPTEN=ON
+fi
+
+cmake -DCMAKE_BUILD_TYPE=Release $CMAKE_ADDITIONAL_ARGS ../.. -GNinja
 ninja
-./test/tests
+
+if [ "$CXX" = "em++" ]; then
+  node test/tests.js
+else
+  ./test/tests
+fi
+
 cd ../..
 
 if [ -n "$SIZE_NAME" ]; then
