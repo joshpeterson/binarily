@@ -11,49 +11,34 @@ jobs:
   include:
     - stage: prebuild
       name: "Verify code formating"
-      sudo: required
       services:
         - docker
-      before_install:
-        - docker run -dit --name clang -v $(pwd):/src petersonjm1/clang bash
       script:
-        - docker exec -it clang bash -c "cd src;./tools/run-clang-format.py -r src test bench"
+        - docker run -v $(pwd):/src petersonjm1/clang bash -c "cd src; ./tools/run-clang-format.py -r src test bench"
     - stage: prebuild
       name: "Static analysis"
-      sudo: required
       services:
         - docker
-      before_install:
-        - docker run -dit --name clang -v $(pwd):/src petersonjm1/clang bash
       script:
-        - docker exec -it clang bash -c "cd src;./tools/tidy"
+        - docker run -v $(pwd):/src petersonjm1/clang bash -c "cd src; ./tools/tidy"
     - stage: build
       name: "Clang 10"
-      sudo: required
       services:
         - docker
-      before_install:
-        - docker run -dit --name clang -v $(pwd):/src petersonjm1/clang bash
       script:
-        - docker exec -it clang bash -c "cd src;COMPILER=clang++ ./build"
+        - docker run -v $(pwd):/src petersonjm1/clang bash -c "cd src; COMPILER=clang++ ./build"
     - stage: build
       name: "GCC 10"
-      sudo: required
       services:
         - docker
-      before_install:
-        - docker run -dit --name gcc -v $(pwd):/src petersonjm1/gcc bash
       script:
-        - docker exec -it gcc bash -c "cd src;COMPILER=g++ ./build"
+        - docker run -v $(pwd):/src petersonjm1/gcc bash -c "cd src; COMPILER=g++ ./build"
     - stage: build
       name: "Emscripten"
-      sudo: required
       services:
         - docker
-      before_install:
-        - docker run -dit --name emscripten -v $(pwd):/src petersonjm1/emscripten bash
       script:
-        - docker exec -it emscripten bash -c "./tools/build-emscripten"
+        - docker run -v $(pwd):/src petersonjm1/emscripten bash -c "cd src; ./tools/build-emscripten"
     - stage: sanitizers
       name: "Address sanitizer"
       sudo: required
@@ -63,22 +48,16 @@ jobs:
         - docker run --privileged -v $(pwd):/src petersonjm1/clang bash -c "cd src; ./tools/build-asan"
     - stage: sanitizers
       name: "Thread sanitizer"
-      sudo: required
       services:
         - docker
-      before_install:
-        - docker run -dit --name clang -v $(pwd):/src petersonjm1/clang bash
       script:
-        - docker exec -it clang bash -c "cd src;COMPILER=clang++ ./tools/build-tsan"
+        - docker run -v $(pwd):/src petersonjm1/clang bash -c "cd src; ./tools/build-tsan"
     - stage: sanitizers
       name: "Undefined behavior sanitizer"
-      sudo: required
       services:
         - docker
-      before_install:
-        - docker run -dit --name clang -v $(pwd):/src petersonjm1/clang bash
       script:
-        - docker exec -it clang bash -c "cd src;COMPILER=clang++ ./tools/build-ubsan"
+        - docker run -v $(pwd):/src petersonjm1/clang bash -c "cd src; ./tools/build-ubsan"
     - stage: deploy
       name: "Deploy to Github Pages"
       if: branch = master
@@ -89,8 +68,8 @@ jobs:
         - openssl aes-256-cbc -K $encrypted_189e52c2c347_key -iv $encrypted_189e52c2c347_iv -in deploy_key.enc -out deploy_key -d
         - docker run -dit --name emscripten -v $(pwd):/src petersonjm1/emscripten bash
       script:
-        - docker exec -it emscripten bash -c "./tools/build-release-emscripten"
-        - docker exec -it emscripten bash -c "./tools/deploy"
+        - docker exec -it emscripten bash -c "cd src; ./tools/build-release-emscripten"
+        - docker exec -it emscripten bash -c "cd src; ./tools/deploy"
       deploy:
         provider: pages:git
         edge: true
