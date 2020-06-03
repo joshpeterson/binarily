@@ -38,7 +38,7 @@ jobs:
       services:
         - docker
       script:
-        - docker run -v $(pwd):/src petersonjm1/emscripten bash -c "cd src; ./tools/build-emscripten"
+        - docker run -v $(pwd):/src petersonjm1/emscripten bash -c "cd src;COMPILER=em++ ./build"
     - stage: sanitizers
       name: "Address sanitizer"
       sudo: required
@@ -68,11 +68,11 @@ jobs:
         - openssl aes-256-cbc -K $encrypted_189e52c2c347_key -iv $encrypted_189e52c2c347_iv -in deploy_key.enc -out deploy_key -d
         - docker run -dit --name emscripten -v $(pwd):/src petersonjm1/emscripten bash
       script:
-        - docker exec -it emscripten bash -c "cd src; ./tools/build-release-emscripten"
+        - docker exec -it emscripten bash -c "cd src; COMPILER=em++ ./tools/build-release"
         - docker exec -it emscripten bash -c "cd src; ./tools/deploy"
       deploy:
         provider: pages:git
         edge: true
-        local_dir: artifacts/ReleaseEmscripten/deploy
+        local_dir: artifacts/Releasen/deploy
         commit_message: Deploy from %{git_branch} at %{git_sha}
         deploy_key: deploy_key
